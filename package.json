@@ -1,6 +1,6 @@
 {
   "name"          : "bless",
-  "description"   : "Save your CSS",
+  "description"   : "Save Your CSS",
   "url"           : "http://blesscss.com",
   "keywords"      : ["css", "parser", "bless", "less", "sass", "stylus"],
   "author"        : "Paul Young <paulyoungonline+bless@gmail.com>",
