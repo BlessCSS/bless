@@ -73,15 +73,15 @@ fs.readFile(input, 'utf-8', function (e, str) {
             process.exit(1);
         } else {
             try {
-                for (i in files)
-                {
-                    var file = files[i];
-                    fd = fs.openSync(file.filename, "w");
-                    fs.writeSync(fd, file.content, 0, "utf8");
+                if(files.length > 1) {
+                    for (i in files) {
+                        var file = files[i];
+                        fd = fs.openSync(file.filename, "w");
+                        fs.writeSync(fd, file.content, 0, "utf8");
+                    }
                 }
                 
-                if(options.cleanup)
-                {
+                if(options.cleanup) {
                     bless.Parser.cleanup(output, function(err) {
                         if (err) throw err;
                     });
