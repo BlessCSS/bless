@@ -57,6 +57,11 @@ if (! input) {
 
 output = output ? output : input;
 
+if (output == '-') {
+    sys.puts("blessc: no output file");
+    process.exit(1);
+}
+
 var parseCss = function (e, data) {
     if (e) {
         sys.puts("blessc: " + e.message);
