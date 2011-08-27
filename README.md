@@ -1,8 +1,6 @@
 bless.js
 =======
 
-Save your CSS.
-
 <http://blesscss.com>
 
 about
