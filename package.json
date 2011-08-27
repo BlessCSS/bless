@@ -1,6 +1,6 @@
 {
   "name"          : "bless",
-  "description"   : "CSS Post-processor",
+  "description"   : "CSS Post-Processor",
   "url"           : "http://blesscss.com",
   "keywords"      : ["css", "parser", "bless", "less", "sass", "stylus"],
   "author"        : "Paul Young <paulyoungonline+bless@gmail.com>",

@@ -26,7 +26,7 @@ args = args.filter(function (arg) {
             break;
         case 'v':
         case 'version':
-            sys.puts("blessc " + bless.version.join('.') + " (CSS Post-processor) [JavaScript]");
+            sys.puts("blessc " + bless.version.join('.') + " (CSS Post-Processor) [JavaScript]");
             process.exit(0);
         case 'h':
         case 'help':
