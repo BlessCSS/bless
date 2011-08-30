@@ -5,7 +5,7 @@
   "keywords"      : ["css", "parser", "bless", "less", "sass", "stylus"],
   "author"        : "Paul Young <paulyoungonline+bless@gmail.com>",
   "contributors"  : [],
-  "version"       : "1.1.1",
+  "version"       : "1.1.2",
   "bin"           : { "blessc": "./bin/blessc" },
   "main"          : "./lib/bless/index",
   "directories"   : { "test": "./test" },
