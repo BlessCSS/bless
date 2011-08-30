@@ -78,7 +78,7 @@ var parseCss = function (e, data) {
             process.exit(1);
         } else {
             try {
-                if(files.length > 1) {
+                if(files.length > 1 || input != output) {
                     for (i in files) {
                         var file = files[i];
                         fd = fs.openSync(file.filename, "w");
