@@ -12,8 +12,9 @@ function assertContent(file) {
         files = files.reverse();
         for (var i = 0; i < files.length; i++) {
             var index = i > 0 ? i + 1 : '';
+            var blessed = index > 1 ? '-blessed' : '';
             file = path.basename(file, path.extname(file));
-            assert.equal (files[i]['content'], fs.readFileSync(path.join('test/output', file + index + '.css'), 'utf-8'));
+            assert.equal (files[i]['content'], fs.readFileSync(path.join('test/output', file + blessed + index + '.css'), 'utf-8'));
         }
     };
 }
