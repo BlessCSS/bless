@@ -99,34 +99,54 @@ var parseCss = function (e, data) {
                     message += ' No changes made.';
                 }
                 
-                if(options.cleanup) {
-                    bless.Parser.cleanup(output, function(err, files) {
-                        if (err) {
-                            throw err;
-                            process.exit(1);
-                        } else {
-                            for (i in files) {
-                                fs.unlink(files[i], function (err) {
+                
+                bless.Parser.cleanup(output, function(err, files) {
+                    if (err) {
+                        throw err;
+                        process.exit(1);
+                    } else {
+                        var oldVerb;
+                        
+                        for (i in files) {
+                            var file = files[i];
+                            
+                            if(! options.cleanup) {
+                                oldVerb = 'renamed';
+                                var ext = path.extname(file);
+                                var dest = file.replace(ext, '-old' + ext);
+                                var read = fs.createReadStream(file);
+                                var write = fs.createWriteStream(dest);
+
+                                read.on('end', function (err) {
                                     if (err) {
                                         throw err;
                                         process.exit(1);
                                     }
                                 });
+                                
+                                sys.pump(read, write);
+                            } else {
+                                oldVerb = 'removed';
                             }
                             
-                            var numRemoved = files.length;
-                            
-                            if (numRemoved > 0) {
-                                var removedFileNoun = noun('file', numRemoved);
-                                message += ' Additional CSS ' + removedFileNoun + ' no longer needed. ' + numRemoved + ' additional ' + removedFileNoun + ' removed.'
-                            }
-                            
-                            sys.puts('blessc: ' + message);
+                            fs.unlink(files[i], function (err) {
+                                if (err) {
+                                    throw err;
+                                    process.exit(1);
+                                }
+                            });
                         }
-                    });
-                } else {
-                    sys.puts('blessc: ' + message);
-                }
+                        
+                        var numOld = files.length;
+                        
+                        if (numOld > 0) {
+                            var removedFileNoun = noun('file', numOld);
+                            message += ' Additional CSS ' + removedFileNoun + ' no longer needed. ' + numOld + ' additional ' + removedFileNoun + ' ' + oldVerb + '.'
+                        }
+                        
+                        sys.puts('blessc: ' + message);
+                    }
+                });
                     
             } catch (e) {
                 throw e;
