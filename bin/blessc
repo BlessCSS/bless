@@ -86,8 +86,20 @@ var parseCss = function (e, data) {
                 }
                 
                 if(options.cleanup) {
-                    bless.Parser.cleanup(output, function(err) {
-                        if (err) throw err;
+                    bless.Parser.cleanup(output, function(err, files) {
+                        if (err) {
+                            throw err;
+                            process.exit(1);
+                        } else {
+                            for (i in files) {
+                                fs.unlink(files[i], function (err) {
+                                    if (err) {
+                                        throw err;
+                                        process.exit(1);
+                                    }
+                                });
+                            }
+                        }
                     });
                 }
             } catch (e) {
