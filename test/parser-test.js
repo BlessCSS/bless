@@ -14,7 +14,7 @@ function assertContent(file) {
             var index = i > 0 ? i + 1 : '';
             file = path.basename(file, path.extname(file));
             var blessed = index > 1 ? '-blessed' : '';
-            assert.equal (files[i]['content'], fs.readFileSync(path.join('test/output', file + blessed + index + '.css'), 'utf-8'));
+            assert.equal (files[i]['content'], fs.readFileSync(path.join(__dirname, 'output', file + blessed + index + '.css'), 'utf-8'));
         }
     };
 }
@@ -40,13 +40,13 @@ var parser = {
                 cleanup: true,
                 compress: false
             }
-        }).parse(fs.readFileSync(path.join('test/input', file), 'utf-8'), callback);
+        }).parse(fs.readFileSync(path.join(__dirname, 'input', file), 'utf-8'), callback);
     }
 };
 
 var input = [];
 
-fs.readdirSync('test/input').forEach(function (file) {
+fs.readdirSync(path.join(__dirname, 'input')).forEach(function (file) {
     if (! /\.css/.test(file)) { return }
     input.push(file);
 });
