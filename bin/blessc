@@ -10,7 +10,8 @@ var bless = require('bless');
 var args = process.argv.slice(1);
 var options = {
     cleanup: true,
-    compress: false
+    compress: false,
+    force: false
 };
 
 args = args.filter(function (arg) {
@@ -36,6 +37,10 @@ args = args.filter(function (arg) {
         case 'compress':
             options.compress = true;
             break;
+        case 'f':
+        case 'force':
+            options.force = true;
+            break;
     }
 });
 
@@ -57,6 +62,11 @@ output = output ? output : input;
 
 if (output == '-') {
     sys.puts('blessc: no output file');
+    process.exit(1);
+}
+
+if (output == input && ! options.force) {
+    sys.puts('blessc: use --force or -f to modify input file');
     process.exit(1);
 }
 
