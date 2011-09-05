@@ -21,10 +21,6 @@ args = args.filter(function (arg) {
     else { return arg }
 
     switch (arg) {
-        case 'n':
-        case 'no-cleanup':
-            options.cleanup = false;
-            break;
         case 'v':
         case 'version':
             sys.puts('blessc ' + bless.version.join('.') + ' (CSS Post-Processor) [JavaScript]');
@@ -36,6 +32,9 @@ args = args.filter(function (arg) {
         case 'x':
         case 'compress':
             options.compress = true;
+            break;
+        case 'no-cleanup':
+            options.cleanup = false;
             break;
         case 'f':
         case 'force':
