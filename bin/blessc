@@ -48,8 +48,6 @@ if (output && output[0] != '/') {
     output = path.join(process.cwd(), output);
 }
 
-var fd;
-
 if (! input) {
     sys.puts('blessc: no input file');
     process.exit(1);
@@ -62,6 +60,13 @@ if (output == '-') {
     process.exit(1);
 }
 
+function noun(noun, variable) {
+    if (variable < 1 || variable > 2) {
+        noun += 's';
+    }
+    return noun;
+}
+
 var parseCss = function (e, data) {
     if (e) {
         sys.puts('blessc: ' + e.message);
@@ -71,18 +76,27 @@ var parseCss = function (e, data) {
     new(bless.Parser)({
         output: output,
         options: options
-    }).parse(data, function (err, files) {
+    }).parse(data, function (err, files, numSelectors) {
         if (err) {
             throw err;
             process.exit(1);
         } else {
             try {
-                if(files.length > 1 || input != output) {
+                var selectorNoun = noun('selector', numSelectors);
+                var message = 'Source file contained ' + numSelectors + ' ' + selectorNoun + '.';
+                var numFiles = files.length;
+                var fileNoun = noun('file', numFiles);
+                
+                if(numFiles > 1 || input != output) {
                     for (i in files) {
                         var file = files[i];
-                        fd = fs.openSync(file.filename, 'w');
+                        var fd = fs.openSync(file.filename, 'w');
                         fs.writeSync(fd, file.content, 0, 'utf8');
                     }
+                    
+                    message += ' ' + numFiles + ' CSS ' + fileNoun + ' created.';
+                } else {
+                    message += ' No changes made.';
                 }
                 
                 if(options.cleanup) {
@@ -99,9 +113,21 @@ var parseCss = function (e, data) {
                                     }
                                 });
                             }
+                            
+                            var numRemoved = files.length;
+                            
+                            if (numRemoved > 0) {
+                                var removedFileNoun = noun('file', numRemoved);
+                                message += ' Additional CSS ' + removedFileNoun + ' no longer needed. ' + numRemoved + ' additional ' + removedFileNoun + ' removed.'
+                            }
+                            
+                            sys.puts('blessc: ' + message);
                         }
                     });
+                } else {
+                    sys.puts('blessc: ' + message);
                 }
+                    
             } catch (e) {
                 throw e;
                 process.exit(2);
