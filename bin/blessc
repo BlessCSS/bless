@@ -75,7 +75,7 @@ if (output == input && ! options.force) {
 }
 
 function noun (noun, variable) {
-    if (variable < 1 || variable > 2) {
+    if (variable != 1) {
         noun += 's';
     }
     return noun;
