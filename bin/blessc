@@ -57,7 +57,7 @@ if (! input) {
     process.exit(1);
 }
 
-if (! /\.css/.test(input)) {
+if (input != '-' && ! /\.css/.test(input)) {
     sys.puts('blessc: input file not a .css file');
     process.exit(1);
 }
