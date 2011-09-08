@@ -92,7 +92,7 @@ var parseCss = function (e, data) {
         } else {
             try {
                 var selectorNoun = noun('selector', numSelectors);
-                var message = 'Source file contained ' + numSelectors + ' ' + selectorNoun + '.';
+                var message = 'Source CSS file contained ' + numSelectors + ' ' + selectorNoun + '.';
                 var numFiles = files.length;
                 var fileNoun = noun('file', numFiles);
                 
