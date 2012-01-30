@@ -113,14 +113,14 @@ var parseCss = function (e, data) {
             try {
                 var selectorNoun = noun('selector', numSelectors);
                 numSelectors = formatNumber(numSelectors);
-                var message = 'Source CSS file contained ' + numSelectors + ' ' + selectorNoun + '.';
-                var numFiles = files.length;
-                var fileNoun = noun('file', numFiles);
+                var message = 'Source CSS file contained ' + numSelectors + ' ' + selectorNoun + '.',
+                    numFiles = files.length,
+                    fileNoun = noun('file', numFiles);
                 
                 if(numFiles > 1 || input != output) {
                     for (i in files) {
-                        var file = files[i];
-                        var fd = fs.openSync(file.filename, 'w');
+                        var file = files[i],
+                            fd = fs.openSync(file.filename, 'w');
                         fs.writeSync(fd, file.content, 0, 'utf8');
                     }
                     
@@ -142,10 +142,10 @@ var parseCss = function (e, data) {
                             
                             if(! options.cleanup) {
                                 oldVerb = 'renamed';
-                                var ext = path.extname(file);
-                                var dest = file.replace(ext, '-old' + ext);
-                                var read = fs.createReadStream(file);
-                                var write = fs.createWriteStream(dest);
+                                var ext = path.extname(file),
+                                    dest = file.replace(ext, '-old' + ext),
+                                    read = fs.createReadStream(file),
+                                    write = fs.createWriteStream(dest);
 
                                 read.on('end', function (err) {
                                     if (err) {
