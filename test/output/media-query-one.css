@@ -1,0 +1,5 @@
+@import url('media-query-one-blessed1.css');
+
+@media print {
+    #test { color: #090; }
+}

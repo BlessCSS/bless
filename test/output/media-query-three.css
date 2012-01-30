@@ -1,0 +1,31 @@
+@import url('media-query-three-blessed1.css');
+
+@media screen and (max-device-width: 480px) {
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test,
+    #test { color: #900; }
+    #test { color: #090; }   
+}

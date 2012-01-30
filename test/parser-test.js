@@ -11,10 +11,9 @@ function assertContent(file) {
     return function (e, files) {
         files = files.reverse();
         for (var i = 0; i < files.length; i++) {
-            var index = i > 0 ? i + 1 : '';
             file = path.basename(file, path.extname(file));
-            var blessed = index > 1 ? '-blessed' : '';
-            assert.equal (files[i]['content'], fs.readFileSync(path.join(__dirname, 'output', file + blessed + index + '.css'), 'utf-8'));
+            var blessed = i > 0 ? '-blessed' + i : '';
+            assert.equal (files[i]['content'], fs.readFileSync(path.join(__dirname, 'output', file + blessed + '.css'), 'utf-8'));
         }
     };
 }
