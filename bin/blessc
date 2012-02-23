@@ -9,6 +9,7 @@ require.paths.unshift(path.join(__dirname, '..', 'lib'));
 var bless = require('bless');
 var args = process.argv.slice(1);
 var options = {
+    cacheBuster: true,
     cleanup: true,
     compress: false,
     force: false
@@ -40,6 +41,8 @@ args = args.filter(function (arg) {
         case 'force':
             options.force = true;
             break;
+        case 'no-cache-buster':
+            options.cacheBuster = false;
     }
 });
 
@@ -130,7 +133,7 @@ var parseCss = function (e, data) {
                 }
                 
                 
-                bless.Parser.cleanup(output, function(err, files) {
+                bless.Parser.cleanup(options, output, function(err, files) {
                     if (err) {
                         throw err;
                         process.exit(1);
