@@ -2,9 +2,10 @@
 
 var path = require('path'),
     fs = require('fs'),
-    sys = require('sys');
+    util = require('util'),
+    console = require('console');
 
-require.paths.unshift(path.join(__dirname, '..', 'lib'));
+// require.paths.unshift(path.join(__dirname, '..', 'lib'));
 
 var bless = require('bless');
 var args = process.argv.slice(1);
@@ -24,11 +25,11 @@ args = args.filter(function (arg) {
     switch (arg) {
         case 'v':
         case 'version':
-            sys.puts('blessc ' + bless.version.join('.') + ' (CSS Post-Processor) [JavaScript]');
+            console.log('blessc ' + bless.version.join('.') + ' (CSS Post-Processor) [JavaScript]');
             process.exit(0);
         case 'h':
         case 'help':
-            sys.puts('usage: blessc source [destination]');
+            console.log('usage: blessc source [destination]');
             process.exit(0);
         case 'x':
         case 'compress':
@@ -56,24 +57,24 @@ if (output && output[0] != '/') {
 }
 
 if (! input) {
-    sys.puts('blessc: no input file');
+    console.log('blessc: no input file');
     process.exit(1);
 }
 
 if (input != '-' && ! /\.css/.test(input)) {
-    sys.puts('blessc: input file not a .css file');
+    console.log('blessc: input file not a .css file');
     process.exit(1);
 }
 
 output = output ? output : input;
 
 if (output == '-') {
-    sys.puts('blessc: no output file');
+    console.log('blessc: no output file');
     process.exit(1);
 }
 
 if (output == input && ! options.force) {
-    sys.puts('blessc: use --force or -f to modify input file');
+    console.log('blessc: use --force or -f to modify input file');
     process.exit(1);
 }
 
@@ -101,7 +102,7 @@ function formatNumber (nStr) {
 
 var parseCss = function (e, data) {
     if (e) {
-        sys.puts('blessc: ' + e.message);
+        console.log('blessc: ' + e.message);
         process.exit(1);
     }
     
@@ -157,7 +158,7 @@ var parseCss = function (e, data) {
                                     }
                                 });
                                 
-                                sys.pump(read, write);
+                                util.pump(read, write);
                             } else {
                                 oldVerb = 'removed';
                             }
@@ -177,7 +178,7 @@ var parseCss = function (e, data) {
                             message += ' Additional CSS ' + removedFileNoun + ' no longer needed. ' + numOld + ' additional ' + removedFileNoun + ' ' + oldVerb + '.'
                         }
                         
-                        sys.puts('blessc: ' + message);
+                        console.log('blessc: ' + message);
                     }
                 });
                     
