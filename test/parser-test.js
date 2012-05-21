@@ -1,11 +1,8 @@
 var vows = require('vows'),
     assert = require('assert'),
     fs = require('fs'),
-    path = require('path');
-
-require.paths.unshift(path.join(__dirname, '..', 'lib'));
-
-var bless = require('bless');
+    path = require('path'),
+    bless = require('../lib/bless');
 
 function assertContent(file) {
     return function (e, files) {
