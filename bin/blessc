@@ -15,10 +15,13 @@ var options = {
 };
 
 args = args.filter(function (arg) {
-    var match;
+    var match = arg.match(/^--?([a-z][0-9a-z-]*)(?:=([^\s]+))?$/i);
 
-    if (match = arg.match(/^--?([a-z][0-9a-z-]*)(?:=([^\s]+))?$/i)) { arg = match[1] }
-    else { return arg }
+    if (match) {
+        arg = match[1];
+    } else {
+        return arg;
+    }
 
     switch (arg) {
         case 'v':
@@ -54,7 +57,7 @@ if (output && output[0] != '/') {
     output = path.join(process.cwd(), output);
 }
 
-if (! input) {
+if (!input) {
     console.log('blessc: no input file');
     process.exit(1);
 }
@@ -64,7 +67,7 @@ if (input != '-' && ! /\.css/.test(input)) {
     process.exit(1);
 }
 
-output = output ? output : input;
+output = output || input;
 
 if (output == '-') {
     console.log('blessc: no output file');
@@ -76,7 +79,7 @@ if (output == input && ! options.force) {
     process.exit(1);
 }
 
-function noun (noun, variable) {
+function noun(noun, variable) {
     if (variable != 1) {
         noun += 's';
     }
@@ -85,9 +88,9 @@ function noun (noun, variable) {
 
 function formatNumber (nStr) {
     nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
     
     var rgx = /(\d+)(\d{3})/;
     while (rgx.test(x1)) {
@@ -104,7 +107,7 @@ var parseCss = function (e, data) {
         process.exit(1);
     }
     
-    new(bless.Parser)({
+    new (bless.Parser)({
         output: output,
         options: options
     }).parse(data, function (err, files, numSelectors) {
@@ -120,7 +123,7 @@ var parseCss = function (e, data) {
                     fileNoun = noun('file', numFiles);
                 
                 if(numFiles > 1 || input != output) {
-                    for (i in files) {
+                    for (var i in files) {
                         var file = files[i],
                             fd = fs.openSync(file.filename, 'w');
                         fs.writeSync(fd, file.content, 0, 'utf8');
@@ -139,7 +142,7 @@ var parseCss = function (e, data) {
                     } else {
                         var oldVerb;
                         
-                        for (i in files) {
+                        for (var i in files) {
                             var file = files[i];
                             
                             if(! options.cleanup) {
@@ -173,7 +176,7 @@ var parseCss = function (e, data) {
                         
                         if (numOld > 0) {
                             var removedFileNoun = noun('file', numOld);
-                            message += ' Additional CSS ' + removedFileNoun + ' no longer needed. ' + numOld + ' additional ' + removedFileNoun + ' ' + oldVerb + '.'
+                            message += ' Additional CSS ' + removedFileNoun + ' no longer needed. ' + numOld + ' additional ' + removedFileNoun + ' ' + oldVerb + '.';
                         }
                         
                         console.log('blessc: ' + message);
