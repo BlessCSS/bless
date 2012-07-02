@@ -1,13 +1,14 @@
 {
-  "name"          : "bless",
-  "description"   : "CSS Post-Processor",
-  "url"           : "http://blesscss.com",
-  "keywords"      : ["css", "parser", "bless", "less", "sass", "stylus"],
-  "author"        : "Paul Young <paulyoungonline+bless@gmail.com>",
-  "contributors"  : [],
-  "version"       : "3.0.0",
-  "bin"           : { "blessc": "./bin/blessc" },
-  "main"          : "./lib/bless/index",
-  "directories"   : { "test": "./test" },
-  "engines"       : { "node": ">=0.6.0" }
+  "name"            : "bless",
+  "description"     : "CSS Post-Processor",
+  "url"             : "http://blesscss.com",
+  "keywords"        : ["css", "parser", "bless", "less", "sass", "stylus"],
+  "author"          : "Paul Young <paulyoungonline+bless@gmail.com>",
+  "contributors"    : [],
+  "version"         : "3.0.1",
+  "bin"             : { "blessc": "./bin/blessc" },
+  "main"            : "./lib/bless/index",
+  "directories"     : { "test": "./test" },
+  "engines"         : { "node": ">=0.6.0" },
+  "devDependencies" : { "vows": "~0.6.2" }
 }
