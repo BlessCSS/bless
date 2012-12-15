@@ -5,7 +5,7 @@ var path = require('path'),
     util = require('util'),
     console = require('console');
 
-var bless = require('bless');
+var bless = require('../lib/bless');
 var args = process.argv.slice(1);
 var options = {
     cacheBuster: true,
@@ -91,7 +91,7 @@ function formatNumber (nStr) {
     var x = nStr.split('.');
     var x1 = x[0];
     var x2 = x.length > 1 ? '.' + x[1] : '';
-    
+
     var rgx = /(\d+)(\d{3})/;
     while (rgx.test(x1)) {
         x1 = x1.replace(rgx, '$1' + ',' + '$2');
@@ -106,7 +106,7 @@ var parseCss = function (e, data) {
         console.log('blessc: ' + e.message);
         process.exit(1);
     }
-    
+
     new (bless.Parser)({
         output: output,
         options: options
@@ -121,30 +121,30 @@ var parseCss = function (e, data) {
                 var message = 'Source CSS file contained ' + numSelectors + ' ' + selectorNoun + '.',
                     numFiles = files.length,
                     fileNoun = noun('file', numFiles);
-                
+
                 if(numFiles > 1 || input != output) {
                     for (var i in files) {
                         var file = files[i],
                             fd = fs.openSync(file.filename, 'w');
                         fs.writeSync(fd, file.content, 0, 'utf8');
                     }
-                    
+
                     message += ' ' + numFiles + ' CSS ' + fileNoun + ' created.';
                 } else {
                     message += ' No changes made.';
                 }
-                
-                
+
+
                 bless.Parser.cleanup(options, output, function(err, files) {
                     if (err) {
                         throw err;
                         process.exit(1);
                     } else {
                         var oldVerb;
-                        
+
                         for (var i in files) {
                             var file = files[i];
-                            
+
                             if(! options.cleanup) {
                                 oldVerb = 'renamed';
                                 var ext = path.extname(file),
@@ -158,12 +158,12 @@ var parseCss = function (e, data) {
                                         process.exit(1);
                                     }
                                 });
-                                
+
                                 util.pump(read, write);
                             } else {
                                 oldVerb = 'removed';
                             }
-                            
+
                             fs.unlink(files[i], function (err) {
                                 if (err) {
                                     throw err;
@@ -171,18 +171,18 @@ var parseCss = function (e, data) {
                                 }
                             });
                         }
-                        
+
                         var numOld = files.length;
-                        
+
                         if (numOld > 0) {
                             var removedFileNoun = noun('file', numOld);
                             message += ' Additional CSS ' + removedFileNoun + ' no longer needed. ' + numOld + ' additional ' + removedFileNoun + ' ' + oldVerb + '.';
                         }
-                        
+
                         console.log('blessc: ' + message);
                     }
                 });
-                    
+
             } catch (e) {
                 throw e;
                 process.exit(2);
