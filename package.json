@@ -1,0 +1,36 @@
+{
+  "name": "bless",
+  "description": "CSS Post-Processor",
+  "url": "http://blesscss.com",
+  "keywords": [
+    "css",
+    "parser",
+    "bless",
+    "less",
+    "sass",
+    "stylus"
+  ],
+  "author": "Paul Young <paulyoungonline+bless@gmail.com>",
+  "version": "4.0.0",
+  "bin": {
+    "blessc": "./bin/blessc"
+  },
+  "main": "./lib/index",
+  "directories": {
+    "test": "./test"
+  },
+  "engines": {
+    "node": ">=0.8.x"
+  },
+  "dependencies": {
+    "commander": "1.2.0",
+    "colors": "0.6.x",
+    "css": "1.4.0"
+  },
+  "devDependencies": {
+    "coffee-script": "1.6.3"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/cake build"
+  }
+}
