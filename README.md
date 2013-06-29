@@ -1,5 +1,5 @@
 ***
-This is an experimental branch which is leading up to the release of version 4.
+This is a development branch which is leading up to the release of version 4.
 ***
 
 # bless
