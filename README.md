@@ -1,6 +1,6 @@
----------------------------------------
+***
 This is an experimental branch which is leading up to the release of version 4.
----------------------------------------
+***
 
 # bless
 <http://blesscss.com>
