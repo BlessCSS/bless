@@ -1,5 +1,5 @@
 ***
-See the [v4 branch](https://github.com/paulyoung/bless.js/tree/v4) for
+See the [4.0.0-development branch](https://github.com/paulyoung/bless.js/tree/4.0.0-development) for
 progress on the new version.
 ***
 
