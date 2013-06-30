@@ -4,11 +4,17 @@
   "url"             : "http://blesscss.com",
   "keywords"        : ["css", "parser", "bless", "less", "sass", "stylus"],
   "author"          : "Paul Young <paulyoungonline+bless@gmail.com>",
-  "contributors"    : [],
+  "contributors"    : ["Aki Alexandra Nofftz <aki@nofftz.name>"],
   "version"         : "3.0.2",
   "bin"             : { "blessc": "./bin/blessc" },
   "main"            : "./lib/bless/index",
   "directories"     : { "test": "./test" },
   "engines"         : { "node": ">=0.6.0" },
-  "devDependencies" : { "vows": "~0.6.2" }
+  "devDependencies" : {
+    "vows"                   : "~0.6.2",
+    "grunt"                  : "~0.4.0",
+    "grunt-contrib-clean"    : "latest",
+    "grunt-contrib-jshint"   : "latest",
+    "grunt-contrib-nodeunit" : "latest"
+  }
 }
