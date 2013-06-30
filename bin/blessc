@@ -31,7 +31,18 @@ args = args.filter(function (arg) {
             process.exit(0);
         case 'h':
         case 'help':
-            console.log('usage: blessc source [destination]');
+            console.log('Usage: blessc [options] [ source | - ] [destination]');
+            console.log('');
+            console.log('Options :');
+            console.log('  -v, --version      print version');
+            console.log('  -h, --help         print this help');
+            console.log('  -f, --force        overwrite input file');
+            console.log('  -x, --compress     "minify" @import');
+            console.log('  --no-cleanup       don\'t remove old css file before overwriting');
+            console.log('  --no-imports       disable @import on stylesheets');
+            console.log('  --no-cache-buster  turn off the cache buster');
+            console.log('');
+            console.log('Full documentation can be found at http://blesscss.com/');
             process.exit(0);
         case 'x':
         case 'compress':
