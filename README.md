@@ -3,9 +3,7 @@ See the [4.0.0-development branch](https://github.com/paulyoung/bless.js/tree/4.
 progress on the new version.
 ***
 
-[![Stories in Ready](http://badge.waffle.io/paulyoung/bless.js.png)](http://waffle.io/paulyoung/bless.js)  
-
-bless.js
+bless.js [![Stories in Ready](http://badge.waffle.io/paulyoung/bless.js.png)](http://waffle.io/paulyoung/bless.js)
 =======
 
 <http://blesscss.com>
