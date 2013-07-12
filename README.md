@@ -1,3 +1,4 @@
+[![Stories in Ready](http://badge.waffle.io/paulyoung/bless.js.png)](http://waffle.io/paulyoung/bless.js)  
 ***
 See the [4.0.0-development branch](https://github.com/paulyoung/bless.js/tree/4.0.0-development) for
 progress on the new version.
