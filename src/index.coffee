@@ -1,135 +1,69 @@
-{print} = require 'util'
-colors = require 'colors'
 css = require 'css'
-fs = require 'fs'
-program = require 'commander'
-pjson = require "#{__dirname}/../package.json"
-
-bless = ->
-
-  SELECTOR_LIMIT = 4095
 
 
-  # Command line arguments.
+SELECTOR_LIMIT = 4095
+
+# Helper function for creating new ASTs.
+#
+newAst = (rules) ->
+  type: 'stylesheet'
+  stylesheet:
+    rules: rules
+
+
+bless = (data) ->
+
+  # Convert the CSS into an abstract syntax tree.
   #
-  program
-    .version(pjson.version)
-    .usage('<input file> [<output file>] [options]')
-    .option('-f, --force', 'modify the input file provided'.yellow)
-    .parse(process.argv)
+  ast = css.parse data
 
-
-
-  # Helper function for creating new ASTs.
+  # Keep track of the number of selectors as the tree is traversed in order
+  # to identify when the selector limit has been reached.
   #
-  newAst = (rules) ->
-    type: 'stylesheet'
-    stylesheet:
-      rules: rules
+  numSelectors = 0
 
-
-
-  # Input is the first argument passed to the binary after options flags have
-  # been stripped.
+  # The rules which have been traversed. Used to easily produce a new AST
+  # using previously traversed nodes.
   #
-  input = program.args[0]
+  rulesCache = []
 
-  unless input
-    console.log 'blessc: no input provided'.red
-    process.exit(1)
-
-
-  # If input is not to be read from stdin, perform a simple check to see if
-  # that the file has a .css extension.
+  # ASTs which represent the stylesheets which should be created as a result
+  # of processing.
   #
-  if input is not '-' and /\.css/.test input
-    console.log 'blessc: input file is not a .css file'.red
-    process.exit(1)
+  newAsts = []
 
 
-
-  # Output is the second (optional) argument passed to the binary after options
-  # flags have been stripped.
+  # Increment the selector count and push rules to the cache.
   #
-  output = program.args[1]
+  for rule in ast.stylesheet.rules
+    switch rule.type
+      when 'rule'
+        numSelectors += rule.selectors.length
+      else
+        # Nested rules. Media queries, for example.
+        #
+        for nestedRule in rule.rules
+          numSelectors += nestedRule.selectors.length
 
-  # If output was not provided, use the input parameter
-  #
-  output = output or input
-
-  # Exit if output was not provided and the input is to be read from stdin.
-  #
-  if output is '-'
-    console.log 'blessc: no output file provided'.red
-    process.exit(1)
-
-  # Exit if output is equal to input and the "force" flag was not used, to
-  # prevent unintentional modifications to the source file.
-  #
-  if output is input and not program.force
-    console.log 'blessc: use --force or -f to modify the input file'.red
-    process.exit(1)
+    rulesCache.push rule
 
 
-
-  # For now, assume that the input is not stdin.
-  #
-  fs.readFile input, 'utf8', (err, data) ->
-    throw err if err
-
-    # Convert the CSS into an abstract syntax tree.
+    # Produce a new AST every time the selector limit is reached and reset
+    # the rules cache.
     #
-    ast = css.parse data
-
-    # Keep track of the number of selectors as the tree is traversed in order
-    # to identify when the selector limit has been reached.
-    #
-    numSelectors = 0
-
-    # The rules which have been traversed. Used to easily produce a new AST
-    # using previously traversed nodes.
-    #
-    rulesCache = []
-
-    # ASTs which represent the stylesheets which should be created as a result
-    # of processing.
-    #
-    newAsts = []
+    if numSelectors is SELECTOR_LIMIT
+      newAsts.push newAst(rulesCache)
+      rulesCache = []
+      numSelectors = 0
 
 
-    # Increment the selector count and push rules to the cache.
-    #
-    for rule in ast.stylesheet.rules
-      switch rule.type
-        when 'rule'
-          numSelectors += rule.selectors.length
-        else
-          # Nested rules maybe be media queries, for example.
-          #
-          for nestedRule in rule.rules
-            numSelectors += nestedRule.selectors.length
+  # Convert any remaining rules to a new AST. This also accounts for the case
+  # where the selector limit was not reached.
+  #
+  newAsts.push newAst(rulesCache) if rulesCache.length
 
-      rulesCache.push rule
+  newData = (css.stringify ast for ast in newAsts)
 
-
-      # Produce a new AST every time the selector limit is reached and reset
-      # the rules cache.
-      #
-      if numSelectors > 4095
-        newAsts.push newAst(rulesCache)
-        rulesCache = []
-
-
-    # If no new ASTs were created, the selector limit was never reached so use
-    # the original ruleset.
-    #
-    newAsts.push newAst(ast.stylesheet.rules) unless newAsts.length
-    console.log newAsts
-
-
-    # console.log JSON.stringify(ast, null, 2)
-
-    # string = css.stringify obj
-    # console.log string
+  return newData
 
 module.exports = bless
