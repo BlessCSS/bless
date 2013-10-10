@@ -22,6 +22,10 @@ bless = (data) ->
   #
   numSelectors = 0
 
+  # Also keep track of the total number of selectors for reporting purposes.
+  #
+  totalNumSelectors = 0
+
   # The rules which have been traversed. Used to easily produce a new AST
   # using previously traversed nodes.
   #
@@ -39,11 +43,13 @@ bless = (data) ->
     switch rule.type
       when 'rule'
         numSelectors += rule.selectors.length
+        totalNumSelectors += rule.selectors.length
       else
         # Nested rules. Media queries, for example.
         #
         for nestedRule in rule.rules
           numSelectors += nestedRule.selectors.length
+          totalNumSelectors += nestedRule.selectors.length
 
     rulesCache.push rule
 
@@ -64,6 +70,9 @@ bless = (data) ->
 
   newData = (css.stringify ast for ast in newAsts)
 
-  return newData
+  return {
+    data: newData
+    numSelectors: totalNumSelectors
+  }
 
 module.exports = bless

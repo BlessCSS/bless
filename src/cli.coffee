@@ -54,8 +54,52 @@ if output is input and not program.force
   process.exit 1
 
 
+# Helper functions
+#
+pluralize = (noun, number) ->
+   noun += 's' if number isnt 1
+   return noun
+
+formatNumber = (nStr) ->
+  nStr += ""
+  x = nStr.split(".")
+  x1 = x[0]
+  x2 = (if x.length > 1 then "." + x[1] else "")
+  rgx = /(\d+)(\d{3})/
+  x1 = x1.replace(rgx, "$1" + "," + "$2")  while rgx.test(x1)
+  x1 + x2
+
+
 # For now, assume that the input is not stdin.
 #
 fs.readFile input, 'utf8', (err, data) ->
   throw err if err
-  filesData = bless data
+
+  info = bless data
+  numFiles = info.data.length
+  {numSelectors} = info
+
+  dirname = path.dirname output
+  extension = path.extname output
+  filename = path.basename output, extension
+
+  if numFiles > 1
+    for fileData, index in info.data
+      newFilename = "#{path.join(dirname, filename)}-blessed#{index + 1}#{extension}"
+
+      fs.writeFile newFilename, fileData, (err) ->
+        throw err if err
+        # console.log "Created #{newFilename}".yellow
+
+
+  message = []
+
+  message.push "Input file contained #{formatNumber(numSelectors)} #{pluralize('selector', numSelectors)}."
+
+  if numFiles > 1
+    message.push "#{formatNumber(numFiles)} #{pluralize('file', numFiles)} created."
+  else
+    message.push 'No changes made.'
+
+
+  console.log  message.join(' ').green.bold
