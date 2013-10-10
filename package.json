@@ -15,7 +15,7 @@
   "bin": {
     "blessc": "./bin/blessc"
   },
-  "main": "./lib/index",
+  "main": "./lib/bless",
   "directories": {
     "test": "./test"
   },
