@@ -40,7 +40,6 @@ args = args.filter(function (arg) {
             console.log('  -f, --force        overwrite input file');
             console.log('  -x, --compress     "minify" @import');
             console.log('  -l, --list         List filenames');
-            console.log('  --print0 (only -l) List files full name followed by a null character');
             console.log('  --no-cleanup       don\'t remove old css file before overwriting');
             console.log('  --no-imports       disable @import on stylesheets');
             console.log('  --no-cache-buster  turn off the cache buster');
@@ -61,9 +60,6 @@ args = args.filter(function (arg) {
         case 'l':
         case 'list':
             options.listFiles = true;
-            break;
-        case 'print0':
-            options.printNull = true;
             break;
         case 'no-imports':
             options.imports = false;
@@ -209,15 +205,10 @@ var parseCss = function (e, data) {
                             message += ' Additional CSS ' + removedFileNoun + ' no longer needed. ' + numOld + ' additional ' + removedFileNoun + ' ' + oldVerb + '.';
                         }
                         if (options.listFiles) {
-                            if (options.printNull) {
-                                console.log(fileNames.join('\0'));
-                            } else {
-                                console.log(fileNames.join('\n'));
-                            }
-                            process.exit();
+                            console.log(fileNames.join('\n'));
+                        } else {
+                            console.log('blessc: ' + message);
                         }
-
-                        console.log('blessc: ' + message);
                     }
                 });
 
