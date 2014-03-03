@@ -8,6 +8,7 @@ var path = require('path'),
 var bless = require('../lib/bless');
 var args = process.argv.slice(1);
 var options = {
+    listFiles: false,
     cacheBuster: true,
     cleanup: true,
     compress: false,
@@ -38,6 +39,7 @@ args = args.filter(function (arg) {
             console.log('  -h, --help         print this help');
             console.log('  -f, --force        overwrite input file');
             console.log('  -x, --compress     "minify" @import');
+            console.log('  -l, --list         List filenames');
             console.log('  --no-cleanup       don\'t remove old css file before overwriting');
             console.log('  --no-imports       disable @import on stylesheets');
             console.log('  --no-cache-buster  turn off the cache buster');
@@ -54,6 +56,10 @@ args = args.filter(function (arg) {
         case 'f':
         case 'force':
             options.force = true;
+            break;
+        case 'l':
+        case 'list':
+            options.listFiles = true;
             break;
         case 'no-imports':
             options.imports = false;
@@ -135,6 +141,7 @@ var parseCss = function (e, data) {
                 numSelectors = formatNumber(numSelectors);
                 var message = 'Source CSS file contained ' + numSelectors + ' ' + selectorNoun + '.',
                     numFiles = files.length,
+                    fileNames = [],
                     fileNoun = noun('file', numFiles);
 
                 if(numFiles > 1 || input != output) {
@@ -142,6 +149,10 @@ var parseCss = function (e, data) {
                         var file = files[i],
                             fd = fs.openSync(file.filename, 'w');
                         fs.writeSync(fd, file.content, 0, 'utf8');
+
+                        if (options.listFiles) {
+                            fileNames.push(file.filename);
+                        }
                     }
 
                     message += ' ' + numFiles + ' CSS ' + fileNoun + ' created.';
@@ -193,8 +204,11 @@ var parseCss = function (e, data) {
                             var removedFileNoun = noun('file', numOld);
                             message += ' Additional CSS ' + removedFileNoun + ' no longer needed. ' + numOld + ' additional ' + removedFileNoun + ' ' + oldVerb + '.';
                         }
-
-                        console.log('blessc: ' + message);
+                        if (options.listFiles) {
+                            console.log(fileNames.join('\n'));
+                        } else {
+                            console.log('blessc: ' + message);
+                        }
                     }
                 });
 
