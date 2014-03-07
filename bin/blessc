@@ -12,7 +12,8 @@ var options = {
     cleanup: true,
     compress: false,
     force: false,
-    imports: true
+    imports: true,
+    limit: 4095,
 };
 
 args = args.filter(function (arg) {
@@ -60,6 +61,9 @@ args = args.filter(function (arg) {
             break;
         case 'no-cache-buster':
             options.cacheBuster = false;
+            break;
+        case 'l':
+          options.limit = match[2];
     }
 });
 
