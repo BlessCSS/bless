@@ -13,7 +13,7 @@ var options = {
     compress: false,
     force: false,
     imports: true,
-    limit: 4095,
+    limit: 4095
 };
 
 args = args.filter(function (arg) {
