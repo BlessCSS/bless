@@ -35,7 +35,8 @@ var parser = {
             options: {
                 cleanup: true,
                 compress: false,
-                imports: true
+                imports: true,
+                cacheBuster: 'checksum'
             }
         }).parse(fs.readFileSync(path.join(__dirname, 'input', file), 'utf-8'), callback);
     }

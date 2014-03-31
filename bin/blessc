@@ -34,13 +34,14 @@ args = args.filter(function (arg) {
             console.log('Usage: blessc [options] [ source | - ] [destination]');
             console.log('');
             console.log('Options :');
-            console.log('  -v, --version      print version');
-            console.log('  -h, --help         print this help');
-            console.log('  -f, --force        overwrite input file');
-            console.log('  -x, --compress     "minify" @import');
-            console.log('  --no-cleanup       don\'t remove old css file before overwriting');
-            console.log('  --no-imports       disable @import on stylesheets');
-            console.log('  --no-cache-buster  turn off the cache buster');
+            console.log('  -v, --version         print version');
+            console.log('  -h, --help            print this help');
+            console.log('  -f, --force           overwrite input file');
+            console.log('  -x, --compress        "minify" @import');
+            console.log('  --no-cleanup          don\'t remove old css file before overwriting');
+            console.log('  --no-imports          disable @import on stylesheets');
+            console.log('  --no-cache-buster     turn off the cache buster');
+            console.log('  --cache-buster=MODE   specify cache buster mode: timestamp (default), checksum');
             console.log('');
             console.log('Full documentation can be found at http://blesscss.com/');
             process.exit(0);
@@ -60,6 +61,12 @@ args = args.filter(function (arg) {
             break;
         case 'no-cache-buster':
             options.cacheBuster = false;
+            break;
+        case 'cache-buster':
+            // Only honor if cacheBuster has not yet been disabled.
+            if (options.cacheBuster === true) {
+                options.cacheBuster = match[2] || true;
+            }
     }
 });
 
