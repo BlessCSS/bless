@@ -5,7 +5,7 @@ SELECTOR_LIMIT = 4095
 
 # Helper function for creating new ASTs.
 #
-newAst = (rules) ->
+createAst = (rules) ->
   type: 'stylesheet'
   stylesheet:
     rules: rules
@@ -37,19 +37,52 @@ bless = (data) ->
   newAsts = []
 
 
+  # Helper function for a pushing a new AST and resetting the rules cache.
+  #
+  startNewAst = ->
+    newAsts.push createAst(rulesCache)
+    rulesCache = []
+    numSelectors = 0
+
+
   # Increment the selector count and push rules to the cache.
   #
   for rule in ast.stylesheet.rules
     switch rule.type
+
+      # Regular CSS rules.
+      #
       when 'rule'
+        # Check if adding this rule will break the selector limit. If so,
+        # produce a new AST first.
+        #
+        startNewAst() if numSelectors + rule.selectors.length > SELECTOR_LIMIT
+
+
         numSelectors += rule.selectors.length
         totalNumSelectors += rule.selectors.length
+
+
+      # No-ops.
+      #
+      when 'comment'
+
+      # Nested rules. Media queries, for example.
+      #
       else
-        # Nested rules. Media queries, for example.
+        # Check if adding this rule will break the selector limit. If so,
+        # produce a new AST first.
         #
+        numNestedRuleSelectors = 0
+
         for nestedRule in rule.rules
-          numSelectors += nestedRule.selectors.length
-          totalNumSelectors += nestedRule.selectors.length
+          numNestedRuleSelectors += nestedRule.selectors.length
+
+        startNewAst() if numSelectors + numNestedRuleSelectors > SELECTOR_LIMIT
+
+
+        numSelectors += numNestedRuleSelectors
+        totalNumSelectors += numNestedRuleSelectors
 
     rulesCache.push rule
 
@@ -57,16 +90,13 @@ bless = (data) ->
     # Produce a new AST every time the selector limit is reached and reset
     # the rules cache.
     #
-    if numSelectors is SELECTOR_LIMIT
-      newAsts.push newAst(rulesCache)
-      rulesCache = []
-      numSelectors = 0
+    startNewAst() if numSelectors is SELECTOR_LIMIT
 
 
   # Convert any remaining rules to a new AST. This also accounts for the case
   # where the selector limit was not reached.
   #
-  newAsts.push newAst(rulesCache) if rulesCache.length
+  newAsts.push createAst(rulesCache) if rulesCache.length
 
   newData = (css.stringify ast for ast in newAsts)
 

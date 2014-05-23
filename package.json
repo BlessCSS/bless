@@ -28,9 +28,12 @@
     "css": "1.4.0"
   },
   "devDependencies": {
-    "coffee-script": "1.6.3"
+    "chai": "1.9.1",
+    "coffee-script": "1.7.1",
+    "mocha": "1.19.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/cake build"
+    "build": "./node_modules/.bin/cake build",
+    "test": "./node_modules/.bin/mocha test --compilers coffee:coffee-script/register --reporter spec --ui exports"
   }
 }

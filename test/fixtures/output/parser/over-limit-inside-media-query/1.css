@@ -1,0 +1,4 @@
+@media print {
+  #test { color: #090; }
+  p { font-weight: bold; text-decoration: underline; }
+}
