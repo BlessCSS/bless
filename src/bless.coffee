@@ -66,7 +66,11 @@ bless = (data) ->
       # No-ops.
       #
       when 'comment'
-
+        break
+      # keyframes are not supported by IE8-IE9
+      #
+      when 'keyframes'
+        continue
       # Nested rules. Media queries, for example.
       #
       else
