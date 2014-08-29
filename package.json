@@ -25,7 +25,8 @@
   "dependencies": {
     "commander": "1.2.0",
     "colors": "0.6.x",
-    "css": "1.4.0"
+    "css": "1.4.0",
+    "format-number": "1.0.2"
   },
   "devDependencies": {
     "chai": "1.9.1",

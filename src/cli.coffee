@@ -1,4 +1,5 @@
 colors = require 'colors'
+formatNumber = require('format-number')()
 fs = require 'fs'
 path = require 'path'
 parser = require '../lib/parser'
@@ -58,16 +59,6 @@ if output is input and not program.force
 pluralize = (noun, number) ->
   noun = "#{noun}s" if number isnt 1
   return noun
-
-formatNumber = (nStr) ->
-  nStr += ""
-  x = nStr.split(".")
-  x1 = x[0]
-  x2 = (if x.length > 1 then "." + x[1] else "")
-  rgx = /(\d+)(\d{3})/
-  x1 = x1.replace(rgx, "$1" + "," + "$2")  while rgx.test(x1)
-  x1 + x2
-
 
 # For now, assume that the input is not stdin.
 #
