@@ -82,23 +82,29 @@ fs.readFile input, 'utf8', (err, data) ->
   extension = path.extname output
   filename = path.basename output, extension
 
+  numFilesWritten = 0
+
+  logSummary = ->
+    message = []
+
+    message.push "Input file contained #{formatNumber(numSelectors)} #{pluralize('selector', numSelectors)}."
+
+    if numFiles > 1
+      message.push "#{formatNumber(numFiles)} #{pluralize('file', numFiles)} created."
+    else
+      message.push 'No changes made.'
+
+    console.log  message.join(' ').green.bold
+
+
   if numFiles > 1
     for fileData, index in result.data
       newFilename = "#{path.join(dirname, filename)}-blessed#{index + 1}#{extension}"
 
       fs.writeFile newFilename, fileData, (err) ->
         throw err if err
-        # console.log "Created #{newFilename}".yellow
-
-
-  message = []
-
-  message.push "Input file contained #{formatNumber(numSelectors)} #{pluralize('selector', numSelectors)}."
-
-  if numFiles > 1
-    message.push "#{formatNumber(numFiles)} #{pluralize('file', numFiles)} created."
+        console.log "Created #{newFilename}".yellow
+        numFilesWritten++
+        logSummary() if numFilesWritten is numFiles
   else
-    message.push 'No changes made.'
-
-
-  console.log  message.join(' ').green.bold
+    logSummary()
