@@ -56,8 +56,8 @@ if output is input and not program.force
 # Helper functions
 #
 pluralize = (noun, number) ->
-   noun += 's' if number isnt 1
-   return noun
+  noun = "#{noun}s" if number isnt 1
+  return noun
 
 formatNumber = (nStr) ->
   nStr += ""
