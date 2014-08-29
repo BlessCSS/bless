@@ -29,7 +29,7 @@ bless = (data) ->
   # The rules which have been traversed. Used to easily produce a new AST
   # using previously traversed nodes.
   #
-  rulesCache = []
+  traversedRules = []
 
   # ASTs which represent the stylesheets which should be created as a result
   # of processing.
@@ -37,15 +37,15 @@ bless = (data) ->
   newAsts = []
 
 
-  # Helper function for a pushing a new AST and resetting the rules cache.
+  # Helper function for a pushing a new AST and clearing traversed rules.
   #
   startNewAst = ->
-    newAsts.push createAst(rulesCache)
-    rulesCache = []
+    newAsts.push createAst(traversedRules)
+    traversedRules = []
     numSelectors = 0
 
 
-  # Increment the selector count and push rules to the cache.
+  # Increment the selector count and track traversed rules.
   #
   for rule in ast.stylesheet.rules
     switch rule.type
@@ -84,11 +84,11 @@ bless = (data) ->
         numSelectors += numNestedRuleSelectors
         totalNumSelectors += numNestedRuleSelectors
 
-    rulesCache.push rule
+    traversedRules.push rule
 
 
-    # Produce a new AST every time the selector limit is reached and reset
-    # the rules cache.
+    # Produce a new AST every time the selector limit is reached and clear
+    # traversed rules.
     #
     startNewAst() if numSelectors is SELECTOR_LIMIT
 
@@ -96,7 +96,7 @@ bless = (data) ->
   # Convert any remaining rules to a new AST. This also accounts for the case
   # where the selector limit was not reached.
   #
-  newAsts.push createAst(rulesCache) if rulesCache.length
+  newAsts.push createAst(traversedRules) if traversedRules.length
 
   newData = (css.stringify ast for ast in newAsts)
 
