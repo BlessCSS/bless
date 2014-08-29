@@ -22,28 +22,28 @@ addContext = (fixtureName, test) ->
 
       # Read data from an output fixture.
       #
-      outputFilename = "#{index}.css"
-      outputFilepath = path.join outputFixturesDir, fixtureName, outputFilename
-      outputData = fs.readFileSync outputFilepath, { encoding: 'utf8' }
+      outputFixtureFilename = "#{index}.css"
+      outputFixtureFilepath = path.join outputFixturesDir, fixtureName, outputFixtureFilename
+      outputFixtureData = fs.readFileSync outputFixtureFilepath, { encoding: 'utf8' }
 
       # Remove whitespace from both data sets.
       #
       parserData = parserData.replace(/\s+/g, '');
-      outputData = outputData.replace(/\s+/g, '');
+      outputFixtureData = outputFixtureData.replace(/\s+/g, '');
 
-      expect(parserData).to.equal outputData
+      expect(parserData).to.equal outputFixtureData
 
 
   # Build up a context from input fixture files.
   #
-  inputFilename = "#{fixtureName}.css"
-  context = "with data from the fixture \"#{inputFilename}\""
+  inputFixtureFilename = "#{fixtureName}.css"
+  context = "with data from the fixture \"#{inputFixtureFilename}\""
 
   spec.Parser[context] = {}
 
-  inputFilepath = path.join inputFixturesDir, inputFilename
-  inputData = fs.readFileSync inputFilepath, { encoding: 'utf8' }
-  result = bless inputData
+  inputFixtureFilepath = path.join inputFixturesDir, inputFixtureFilename
+  inputFixtureData = fs.readFileSync inputFixtureFilepath, { encoding: 'utf8' }
+  result = bless inputFixtureData
 
 
   # Add the predicate and test case to the context.
@@ -60,13 +60,13 @@ spec =
 
 # Add a new context for each input fixture file.
 #
-inputFiles = fs.readdirSync inputFixturesDir
+inputFixtureFiles = fs.readdirSync inputFixturesDir
 
-for inputFilename in inputFiles
-  continue unless /\.css$/.test inputFilename
-  inputFileExtension = path.extname inputFilename
-  inputFile = path.basename inputFilename, inputFileExtension
-  addContext inputFile
+for filename in inputFixtureFiles
+  continue unless /\.css$/.test filename
+  fileExtension = path.extname filename
+  fixtureName = path.basename filename, fileExtension
+  addContext fixtureName
 
 
 # Export the spec to the test runner.
