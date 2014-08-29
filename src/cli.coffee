@@ -1,10 +1,9 @@
+bless = '../lib/bless'
 colors = require 'colors'
 fs = require 'fs'
 path = require 'path'
-pjson = require path.join(__dirname, '..', 'package.json')
+pjson = require '../package.json'
 program = require 'commander'
-
-bless = require path.join(__dirname, '..', 'lib', 'bless')
 
 
 program
