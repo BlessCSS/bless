@@ -1,7 +1,7 @@
-bless = '../lib/bless'
 colors = require 'colors'
 fs = require 'fs'
 path = require 'path'
+parser = '../lib/parser'
 pjson = require '../package.json'
 program = require 'commander'
 
@@ -74,7 +74,7 @@ formatNumber = (nStr) ->
 fs.readFile input, 'utf8', (err, data) ->
   throw err if err
 
-  result = bless data
+  result = parser data
   numFiles = result.data.length
   {numSelectors} = result
 

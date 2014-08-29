@@ -11,7 +11,7 @@ createAst = (rules) ->
     rules: rules
 
 
-bless = (data) ->
+parser = (data) ->
 
   # Convert the CSS into an abstract syntax tree.
   #
@@ -105,4 +105,4 @@ bless = (data) ->
     numSelectors: totalNumSelectors
   }
 
-module.exports = bless
+module.exports = parser

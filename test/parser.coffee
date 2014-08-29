@@ -1,7 +1,7 @@
-bless = require '../lib/bless'
 {expect} = require 'chai'
 fs = require 'fs'
 path = require 'path'
+parser = require '../lib/parser'
 
 
 inputFixturesDir = path.join __dirname, 'fixtures', 'input'
@@ -43,7 +43,7 @@ addContext = (fixtureName, test) ->
 
   inputFixtureFilepath = path.join inputFixturesDir, inputFixtureFilename
   inputFixtureData = fs.readFileSync inputFixtureFilepath, { encoding: 'utf8' }
-  result = bless inputFixtureData
+  result = parser inputFixtureData
 
 
   # Add the predicate and test case to the context.
