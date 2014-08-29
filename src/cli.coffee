@@ -74,16 +74,16 @@ formatNumber = (nStr) ->
 fs.readFile input, 'utf8', (err, data) ->
   throw err if err
 
-  info = bless data
-  numFiles = info.data.length
-  {numSelectors} = info
+  result = bless data
+  numFiles = result.data.length
+  {numSelectors} = result
 
   dirname = path.dirname output
   extension = path.extname output
   filename = path.basename output, extension
 
   if numFiles > 1
-    for fileData, index in info.data
+    for fileData, index in result.data
       newFilename = "#{path.join(dirname, filename)}-blessed#{index + 1}#{extension}"
 
       fs.writeFile newFilename, fileData, (err) ->
