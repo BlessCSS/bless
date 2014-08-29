@@ -1,7 +1,7 @@
 colors = require 'colors'
 fs = require 'fs'
 path = require 'path'
-parser = '../lib/parser'
+parser = require '../lib/parser'
 pjson = require '../package.json'
 program = require 'commander'
 
