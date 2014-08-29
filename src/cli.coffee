@@ -4,6 +4,7 @@ fs = require 'fs'
 path = require 'path'
 parser = require '../lib/parser'
 pjson = require '../package.json'
+pluralize = require 'pluralize'
 program = require 'commander'
 
 
@@ -53,12 +54,6 @@ if output is input and not program.force
   console.log 'blessc: use --force or -f to modify the input file'.red
   process.exit 1
 
-
-# Helper functions
-#
-pluralize = (noun, number) ->
-  noun = "#{noun}s" if number isnt 1
-  return noun
 
 # For now, assume that the input is not stdin.
 #
