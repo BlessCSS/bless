@@ -65,7 +65,10 @@ parser = (data) ->
 
       # No-ops.
       #
-      when 'comment'
+      when 'comment' then
+      when 'font-face' then
+      when 'keyframes' then
+      when 'imports' then
 
       # Nested rules. Media queries, for example.
       #
@@ -105,4 +108,4 @@ parser = (data) ->
     numSelectors: totalNumSelectors
   }
 
-module.exports = parser
+module.exports = {parser}
