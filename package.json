@@ -25,7 +25,7 @@
   "dependencies": {
     "commander": "1.2.0",
     "colors": "0.6.x",
-    "css": "1.4.0",
+    "css": "^2.1.0",
     "format-number": "1.0.2",
     "pluralize": "1.0.0"
   },
