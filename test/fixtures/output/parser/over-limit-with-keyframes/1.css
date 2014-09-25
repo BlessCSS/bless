@@ -1,0 +1,9 @@
+@keyframes progress-bar-with-stripes {
+  from {
+    background-position: 40px 0;
+  }
+
+  to {
+    background-position: 0;
+  }
+}
