@@ -69,6 +69,7 @@ parser = (data) ->
       when 'font-face' then
       when 'keyframes' then
       when 'imports' then
+      when 'supports' then
 
       # Nested rules. Media queries, for example.
       #
