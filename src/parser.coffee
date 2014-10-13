@@ -10,7 +10,6 @@ createAst = (rules) ->
   stylesheet:
     rules: rules
 
-
 parser = (data) ->
 
   # Convert the CSS into an abstract syntax tree.
@@ -78,6 +77,8 @@ parser = (data) ->
         break if typeof rule.rules is 'undefined'
         
         for nestedRule in rule.rules
+          break if typeof nestedRule.selectors is 'undefined'
+          
           numNestedRuleSelectors += nestedRule.selectors.length
 
         startNewAst() if numSelectors + numNestedRuleSelectors > SELECTOR_LIMIT
