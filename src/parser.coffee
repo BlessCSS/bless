@@ -83,8 +83,6 @@ parser = (data) ->
         # produce a new AST first.
         #
         
-        break if typeof rule.rules is 'undefined'
-        
         numNestedRuleSelectors = countNestedSelectors rule
 
         startNewAst() if numSelectors + numNestedRuleSelectors > SELECTOR_LIMIT
