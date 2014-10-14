@@ -10,6 +10,16 @@ createAst = (rules) ->
   stylesheet:
     rules: rules
 
+# Recursively count nested rules
+#
+countNestedSelectors = (rule) ->
+  numNestedRules = 0;
+  return numNestedRules if typeof rule.rules is 'undefined'
+  for nestedRule in rule.rules
+    numNestedRules += countNestedSelectors nestedRule
+    numNestedRules += nestedRule.selectors.length if typeof nestedRule.selectors isnt 'undefined'
+  numNestedRules
+
 parser = (data) ->
 
   # Convert the CSS into an abstract syntax tree.
@@ -72,14 +82,10 @@ parser = (data) ->
         # Check if adding this rule will break the selector limit. If so,
         # produce a new AST first.
         #
-        numNestedRuleSelectors = 0
         
         break if typeof rule.rules is 'undefined'
         
-        for nestedRule in rule.rules
-          break if typeof nestedRule.selectors is 'undefined'
-          
-          numNestedRuleSelectors += nestedRule.selectors.length
+        numNestedRuleSelectors = countNestedSelectors rule
 
         startNewAst() if numSelectors + numNestedRuleSelectors > SELECTOR_LIMIT
 
