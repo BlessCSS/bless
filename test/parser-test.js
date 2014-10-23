@@ -1,59 +1,31 @@
-var vows = require('vows'),
-    assert = require('assert'),
+var assert = require('assert'),
     fs = require('fs'),
+    glob = require('glob'),
     path = require('path'),
-    bless = require('../lib/bless');
-
-function assertContent(file) {
-    return function (e, files) {
-        files = files.reverse();
-        for (var i = 0; i < files.length; i++) {
-            file = path.basename(file, path.extname(file));
-            var blessed = i > 0 ? '-blessed' + i : '';
-            assert.equal (files[i]['content'], fs.readFileSync(path.join(__dirname, 'output', file + blessed + '.css'), 'utf-8'));
-        }
-    };
-}
-
-function checkFile(file) {
-    var context = {
-        topic: function () {
-            var method = this.context.name;
-            parser[method](file, this.callback);
-        }
+    bless = require('../lib/bless'),
+    options = {
+        cleanup: true,
+        compress: false,
+        imports: true
     };
 
-    context[file] = assertContent(file);
+describe('Parser', function() {
+    glob.sync('test/input/*.css').forEach(function(file){
+        it ("should parse "+file, function(done) {
+            var input = fs.readFileSync(file, 'utf-8'),
+                outputFile = file.replace('/input/', '/output/'),
+                parser = bless.Parser({output: outputFile, options: options});
 
-    return context;
-}
-
-var parser = {
-    parse: function (file, callback) {
-        new(bless.Parser)({
-            output: file,
-            options: {
-                cleanup: true,
-                compress: false,
-                imports: true
-            }
-        }).parse(fs.readFileSync(path.join(__dirname, 'input', file), 'utf-8'), callback);
-    }
-};
-
-var input = [];
-
-fs.readdirSync(path.join(__dirname, 'input')).forEach(function (file) {
-    if (! /\.css/.test(file)) { return }
-    input.push(file);
-});
-
-var Parser = vows.describe('Parser');
-
-for (i in input) {
-    Parser.addBatch({
-        'parse': checkFile(input[i])
+            parser.parse(input, function(error, files, numSelectors){
+                // The number of files should always be at least one, and should
+                // be proportional to the number of selectors.
+                assert.equal(files.length, Math.max(1, Math.ceil(numSelectors/4095)));
+                // Each file on the filesystem should contain the expected content.
+                files.forEach(function(file){
+                    assert.equal(file.content, fs.readFileSync(file.filename, 'UTF-8'));
+                });
+                done();
+            });
+        });
     });
-}
-
-Parser.export(module);
+});
