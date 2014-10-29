@@ -1,7 +1,7 @@
 {expect} = require 'chai'
 fs = require 'fs'
 path = require 'path'
-parser = require '../lib/parser'
+{parser} = require '../lib/bless'
 
 
 inputFixturesDir = path.join __dirname, 'fixtures', 'input'
