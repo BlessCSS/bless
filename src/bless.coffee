@@ -68,7 +68,7 @@ parser = (data) ->
       when 'comment' then
       when 'font-face' then
       when 'keyframes' then
-      when 'imports' then
+      when 'import' then
       when 'supports' then
 
       # Nested rules. Media queries, for example.
@@ -80,7 +80,7 @@ parser = (data) ->
         numNestedRuleSelectors = 0
 
         for nestedRule in rule.rules
-          numNestedRuleSelectors += nestedRule.selectors.length
+          numNestedRuleSelectors += nestedRule.selectors.length if !!nestedRule.selectors
 
         startNewAst() if numSelectors + numNestedRuleSelectors > SELECTOR_LIMIT
 
