@@ -1,19 +1,24 @@
 {
-  "name": "bless",
+  "name": "css-band-aid",
   "description": "CSS Post-Processor",
-  "url": "http://blesscss.com",
+  "url": "https://github.com/css-band-aid/css-band-aid",
   "keywords": [
     "css",
     "parser",
-    "bless",
+    "band-aid",
     "less",
     "sass",
-    "stylus"
+    "stylus",
+    "ie9",
+    "selector-limit"
   ],
   "author": "Paul Young <paulyoungonline+bless@gmail.com>",
+  "maintainers": [
+    "Matt Smith <mtscout6+css-band-aid@gmail.com>"
+  ],
   "version": "4.0.0",
   "bin": {
-    "blessc": "./bin/blessc"
+    "blessc": "./bin/bandaid"
   },
   "main": "./lib/bless",
   "directories": {
@@ -36,7 +41,7 @@
     "mocha": "1.19.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/cake build",
-    "test": "./node_modules/.bin/mocha test --compilers coffee:coffee-script/register --reporter spec --ui exports"
+    "build": "rm -rf lib && babel src --out-dir lib",
+    "test": "./node_modules/.bin/mocha --reporter spec --ui exports"
   }
 }
