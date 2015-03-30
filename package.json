@@ -30,6 +30,7 @@
     "pluralize": "1.0.0"
   },
   "devDependencies": {
+    "babel": "^4.7.16",
     "chai": "1.9.1",
     "coffee-script": "1.7.1",
     "mocha": "1.19.0"

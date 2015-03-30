@@ -1,15 +1,14 @@
-***
-This is a development branch which is leading up to the release of v4.0.0
-***
+# css-band-aid
 
-# bless
-<http://blesscss.com>
+This is a fork of [Bless](http://blesscss.com).
 
 ## Usage
-`See $blessc --help`
+
+TODO
 
 ## About
-For more information, visit <http://blesscss.com>.
+
+TODO
 
 ## License
 
