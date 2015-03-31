@@ -1,73 +1,64 @@
+// CLI Runner will work with pre-transpiled babel output, thus needing this
+// polyfill. Not necessary when running unit tests.
+import from 'babel/polyfill';
 import css from 'css';
 
 const SELECTOR_LIMIT = 4095;
 
-function createAst(rules) {
+function createAst(rules, selectorCount) {
   return {
-    type: 'stylesheet',
-    stylesheet: {
-      rules: rules
-    }
+    ast: {
+      type: 'stylesheet',
+      stylesheet: {
+        rules: rules
+      }
+    },
+    selectorCount: selectorCount
   };
 }
 
-export default function parser(data) {
-  let ast, nestedRule, newAsts, newData, numNestedRuleSelectors, numSelectors, rule, startNewAst, totalNumSelectors, traversedRules, _i, _j, _len, _len1, _ref, _ref1;
-  ast = css.parse(data);
-  numSelectors = 0;
-  totalNumSelectors = 0;
-  traversedRules = [];
-  newAsts = [];
-  startNewAst = function() {
-    newAsts.push(createAst(traversedRules));
-    traversedRules = [];
-    return numSelectors = 0;
-  };
-  _ref = ast.stylesheet.rules;
-  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-    rule = _ref[_i];
-    switch (rule.type) {
-      case 'rule':
-        if (numSelectors + rule.selectors.length > SELECTOR_LIMIT) {
-          startNewAst();
-        }
-        numSelectors += rule.selectors.length;
-        totalNumSelectors += rule.selectors.length;
-        break;
-      case 'comment':
-        break;
-      default:
-        numNestedRuleSelectors = 0;
-        _ref1 = rule.rules;
-        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-          nestedRule = _ref1[_j];
-          numNestedRuleSelectors += nestedRule.selectors.length;
-        }
-        if (numSelectors + numNestedRuleSelectors > SELECTOR_LIMIT) {
-          startNewAst();
-        }
-        numSelectors += numNestedRuleSelectors;
-        totalNumSelectors += numNestedRuleSelectors;
-    }
-    traversedRules.push(rule);
-    if (numSelectors === SELECTOR_LIMIT) {
-      startNewAst();
-    }
+function calculateSelectorLength(rule) {
+  switch (rule.type) {
+    case 'rule':
+      return rule.selectors.length;
+    case 'comment':
+      return 0;
+    default:
+      return rule.rules.reduce((acc, rule) => acc + rule.selectors.length, 0);
   }
-  if (traversedRules.length) {
-    newAsts.push(createAst(traversedRules));
-  }
-  newData = (function() {
-    let _k, _len2, _results;
-    _results = [];
-    for (_k = 0, _len2 = newAsts.length; _k < _len2; _k++) {
-      ast = newAsts[_k];
-      _results.push(css.stringify(ast));
+}
+
+function *chunks(source) {
+  let ast = css.parse(source);
+  let rules = ast.stylesheet.rules;
+  let splitRules = [];
+  let selectorCount = 0;
+
+  for(let i = 0; i < rules.length; i++) {
+    let rule = rules[i];
+    let ruleSelectorCount = calculateSelectorLength(rule);
+
+    if (selectorCount + ruleSelectorCount > SELECTOR_LIMIT) {
+      yield createAst(splitRules, selectorCount);
+      splitRules = [];
+      selectorCount = 0;
     }
-    return _results;
-  })();
-  return {
-    data: newData,
-    numSelectors: totalNumSelectors
-  };
+
+    splitRules.push(rule);
+    selectorCount += ruleSelectorCount;
+  }
+
+  yield createAst(splitRules);
+}
+
+export default function parse(source) {
+  let totalSelectorCount = 0;
+  let data = [];
+
+  for(let { ast, selectorCount } of chunks(source)) {
+    totalSelectorCount += selectorCount;
+    data.push(css.stringify(ast));
+  }
+
+  return { data, totalSelectorCount };
 }
