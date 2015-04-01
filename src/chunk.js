@@ -2,8 +2,8 @@
 // polyfill. Not necessary when running unit tests.
 import from 'babel/polyfill';
 import css from 'css';
-
-const SELECTOR_LIMIT = 4095;
+import { count } from './count';
+import { SELECTOR_LIMIT } from './constants';
 
 function createAst(rules, selectorCount) {
   return {
@@ -17,26 +17,14 @@ function createAst(rules, selectorCount) {
   };
 }
 
-function calculateSelectorLength(rule) {
-  switch (rule.type) {
-    case 'rule':
-      return rule.selectors.length;
-    case 'comment':
-      return 0;
-    default:
-      return rule.rules.reduce((acc, rule) => acc + rule.selectors.length, 0);
-  }
-}
-
-function *chunks(source) {
-  let ast = css.parse(source);
+function *chunks(ast) {
   let rules = ast.stylesheet.rules;
   let splitRules = [];
   let selectorCount = 0;
 
   for(let i = 0; i < rules.length; i++) {
     let rule = rules[i];
-    let ruleSelectorCount = calculateSelectorLength(rule);
+    let ruleSelectorCount = count(rule);
 
     if (selectorCount + ruleSelectorCount > SELECTOR_LIMIT) {
       yield createAst(splitRules, selectorCount);
@@ -51,11 +39,12 @@ function *chunks(source) {
   yield createAst(splitRules);
 }
 
-export default function parse(source) {
+export default function chunk(code, options) {
+  let fullAst = css.parse(code, options);
   let totalSelectorCount = 0;
   let data = [];
 
-  for(let { ast, selectorCount } of chunks(source)) {
+  for(let { ast, selectorCount } of chunks(fullAst)) {
     totalSelectorCount += selectorCount;
     data.push(css.stringify(ast));
   }

@@ -1,43 +1,59 @@
-/* eslint no-process-exit: 0 */
 import yargs from 'yargs';
 import { version } from '../package.json';
+import common from './commands/common-yargs';
+import commands from './commands';
+
+const help = {
+  options: null,
+  execute: yargs.showHelp
+};
 
 export default function parseCliArgs(argv) {
-  if (argv !== process.argv) {
-    argv = argv.split(' ');
-    argv.unshift('', '');
+  if (argv === process.argv) {
+    argv = argv.slice(2);
   }
 
-  let options = yargs
+  common(yargs);
+
+  yargs
     .version(`v${version}`)
-    .usage('CSS Band Aid'.magenta + ' - Ensure CSS files meet IE 6-9 selector limit restrictions.\n\nUsage: $0 <input file> [<output file>] [options]')
     .alias('version', 'v')
-    .option('force', {
-      alias: 'f',
-      demand: false,
-      default: false,
-      describe: 'modify the input file provided'
-    })
-    .epilogue('For additional information see https://github.com/css-band-aid/css-band-aid')
-    .wrap(null)
-    .parse(argv);
+    .wrap(null);
 
-  options.input = options.length > 0 ? options._[0] : null;
-  options.output = options.length > 1 ? options._[1] : null;
+  Object.keys(commands)
+    .map(key => commands[key])
+    .forEach(x => {
+      if (x.yargsSetup) {
+        x.yargsSetup();
+      }
 
-  if (!options.input) {
-    throw 'No input provided';
+      if (x.examples) {
+        x.examples();
+      }
+    });
+
+  let commandOptions = yargs.parse(argv);
+
+  let command = commandOptions._[0];
+
+  if (!command) {
+    if (commandOptions.help) {
+      return help;
+    }
+
+    throw 'No command provided';
   }
 
-  if (!options.force && !options.output) {
-    throw 'No output provided';
+  let options = commands[command].parseArgs(argv.slice(1));
+
+  if (commandOptions.help) {
+    return help;
   }
 
-  if (!options.force && options.input === options.output) {
-    throw 'Use --force of -f to modify the input file';
-  }
-
-  return options;
+  return {
+    options,
+    execute: commands[command].execute
+  };
 }
 
 

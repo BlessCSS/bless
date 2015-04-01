@@ -3,15 +3,18 @@ import from 'colors';
 import yargs from 'yargs';
 import parseCliArgs from './parse-cli-args';
 
-let options;
+let command;
 
 try {
-  options = parseCliArgs(process.argv);
-  console.log(options);
+  command = parseCliArgs(process.argv);
 } catch(err) {
   console.log(`Failed: ${err.toString()}`.red);
+  if (err.stack) {
+    console.log(err.stack.red);
+  }
+  console.log('');
   console.log(yargs.help());
   process.exit(1);
 }
 
-
+command.execute(command.options);

@@ -1,13 +1,13 @@
 import fsp from 'fs-promise';
 import parser from './parser';
 
-export function parse(source) {
-  return parser(source);
+export function parse(code, options) {
+  return parser(code, options);
 }
 
-export function parseFile(filename) {
+export function parseFile(source) {
   return fsp.readFile(filename, { encoding: 'utf8' })
-    .then(source => parse(source));
+    .then(code => parse(code, { source }));
 }
 
 //fs.readFile(input, 'utf8', function(err, data) {

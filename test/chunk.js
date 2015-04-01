@@ -2,22 +2,22 @@ import { expect } from 'chai';
 import fs from 'fs';
 import fsp from 'fs-promise';
 import path from 'path';
-import parser from '../src/parser';
+import chunk from '../src/chunk';
 import _ from 'lodash';
 
 const inputFixturesDir = path.join(__dirname, 'fixtures', 'input');
-const outputFixturesDir = path.join(__dirname, 'fixtures', 'output', 'parser');
+const outputFixturesDir = path.join(__dirname, 'fixtures', 'output', 'chunk');
 
 function testParserResults(fixtureName, result) {
-  return result.data.map((parserData, index) => {
+  return result.data.map((chunkData, index) => {
     let outputFixtureFilename = index + '.css';
     let outputFixtureFilepath = path.join(outputFixturesDir, fixtureName, outputFixtureFilename);
 
     return fsp.readFile(outputFixtureFilepath, { encoding: 'utf8' })
       .then(outputFixtureData => {
-        parserData = parserData.replace(/\s+/g, '');
+        chunkData = chunkData.replace(/\s+/g, '');
         outputFixtureData = outputFixtureData.replace(/\s+/g, '');
-        expect(parserData).to.equal(outputFixtureData);
+        expect(chunkData).to.equal(outputFixtureData);
       });
   });
 }
@@ -29,7 +29,7 @@ function buildContext(fixtureName, filename) {
         let inputFixtureFilepath = path.join(inputFixturesDir, filename);
         fsp.readFile(inputFixtureFilepath, { encoding: 'utf8' })
           .then(inputFixtureData => {
-            let result = parser(inputFixtureData);
+            let result = chunk(inputFixtureData);
             return testParserResults(fixtureName, result);
           })
           .then(() => done())
