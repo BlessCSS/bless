@@ -11,10 +11,17 @@ function count(ast) {
       return ast.stylesheet.rules.reduce((acc, rule) => acc + count(rule), 0);
     case 'rule':
       return ast.selectors.length;
+    // Don't affect selector limit
     case 'comment':
+    case 'font-face':
+    case 'keyframes':
+    case 'import':
+    case 'supports':
       return 0;
     default:
-      return ast.rules.reduce((acc, rule) => acc + rule.selectors.length, 0);
+      return ast.rules
+        .filter(rule => rule.selectors)
+        .reduce((acc, rule) => acc + rule.selectors.length, 0);
   }
 }
 

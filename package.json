@@ -32,7 +32,6 @@
     "char-spinner": "^1.0.1",
     "colors": "^1.0.3",
     "columnify": "^1.4.1",
-    "css": "1.4.0",
     "format-number": "1.0.2",
     "fs-promise": "^0.3.1",
     "lodash": "^3.6.0",
@@ -46,6 +45,7 @@
   },
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib",
-    "test": "./node_modules/.bin/mocha --reporter spec --ui exports"
+    "test": "./node_modules/.bin/mocha --reporter spec --ui exports",
+    "prepublish": "npm run build"
   }
 }
