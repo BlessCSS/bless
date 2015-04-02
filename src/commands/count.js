@@ -6,18 +6,22 @@ import path from 'path';
 import { countPath } from '../count';
 import spinner from 'char-spinner';
 import colors from 'colors';
+import numberFormatter from 'format-number';
 import columnify from 'columnify';
 import { SELECTOR_LIMIT } from '../constants';
+
+const formatNumber = numberFormatter();
 
 function format(results, srcPath) {
   let formattedData = results
     .map(x => {
       let color = x.exceedsLimit ? colors.red : colors.green;
       let relativeFilepath = path.relative(srcPath, x.filepath);
+      let formattedNumber = formatNumber(x.selectorCount);
 
       return {
         filepath: color(relativeFilepath),
-        selectorCount: color(x.selectorCount)
+        selectorCount: color(formattedNumber)
       };
     });
 
