@@ -6,9 +6,13 @@ import css from 'css';
 import { SELECTOR_LIMIT } from './constants';
 
 function count(ast) {
+  function countRules(rules) {
+    return rules.reduce((acc, rule) => acc + count(rule), 0);
+  }
+
   switch (ast.type) {
     case 'stylesheet':
-      return ast.stylesheet.rules.reduce((acc, rule) => acc + count(rule), 0);
+      return countRules(ast.stylesheet.rules);
     case 'rule':
       return ast.selectors.length;
     // Don't affect selector limit
@@ -19,16 +23,20 @@ function count(ast) {
     case 'supports':
       return 0;
     default:
-      return ast.rules
-        .reduce((acc, rule) => acc + count(rule), 0);
+      return countRules(ast.rules);
   }
 }
 
-function countFile(filepath) {
+function countFile(filepath, options) {
   return fsp.readFile(filepath, { encoding: 'utf8' })
     .then(contents => {
       let ast = css.parse(contents);
       let selectorCount = count(ast);
+
+      if (options.progress) {
+        options.progress(filepath);
+      }
+
       return {
         filepath,
         selectorCount,
@@ -37,25 +45,26 @@ function countFile(filepath) {
     });
 }
 
-function countDir(directory) {
+function countDir(directory, options) {
   return fsp.readdir(directory)
     .then(files => {
       let fileCounts = files
         .map(f => path.join(directory, f))
-        .map(countPath);
+        .map(f => countPath(f, options));
 
       return Promise.all(fileCounts)
-        .then(results => _.flatten(results));
+        .then(results => _.flatten(results).filter(r => r !== undefined));
     });
 }
 
-function countPath(filepath) {
+function countPath(filepath, options) {
+  options = options || {};
   return fsp.stat(filepath)
     .then(stat => {
       if (stat.isDirectory()) {
-        return countDir(filepath);
-      } else {
-        return countFile(filepath);
+        return countDir(filepath, options);
+      } else if (path.extname(filepath) === '.css') {
+        return countFile(filepath, options);
       }
     });
 }

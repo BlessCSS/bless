@@ -4,7 +4,6 @@ import yargs from 'yargs';
 import common from './common-yargs';
 import path from 'path';
 import { countPath } from '../count';
-import spinner from 'char-spinner';
 import colors from 'colors';
 import numberFormatter from 'format-number';
 import columnify from 'columnify';
@@ -26,7 +25,7 @@ function format(results, srcPath) {
     });
 
   let formattedResults = columnify(formattedData, {
-    columnSplitter: '  ',
+    columnSplitter: '    ',
     config: {
       filepath: {
         headingTransform() { return 'File Path'.bold.underline; }
@@ -41,12 +40,17 @@ function format(results, srcPath) {
 }
 
 function execute(options) {
-  spinner();
-
   const srcPath = path.resolve(options.input);
 
-  countPath(srcPath)
+  let countOptions = {
+    progress(filepath) {
+      process.stdout.write('.');
+    }
+  };
+
+  countPath(srcPath, countOptions)
     .then(results => {
+      console.log('');
       let formattedResults = format(results, srcPath);
       console.log(formattedResults);
 

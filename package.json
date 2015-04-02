@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "babel": "^4.7.16",
-    "char-spinner": "^1.0.1",
     "colors": "^1.0.3",
     "columnify": "^1.4.1",
     "format-number": "1.0.2",
