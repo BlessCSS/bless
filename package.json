@@ -32,19 +32,17 @@
     "char-spinner": "^1.0.1",
     "colors": "^1.0.3",
     "columnify": "^1.4.1",
-    "commander": "1.2.0",
     "css": "1.4.0",
     "format-number": "1.0.2",
     "fs-promise": "^0.3.1",
     "lodash": "^3.6.0",
-    "pluralize": "1.0.0",
     "yargs": "^3.6.0"
   },
   "devDependencies": {
-    "chai": "1.9.1",
-    "coffee-script": "1.7.1",
+    "chai": "^2.2.0",
+    "css": "^2.2.0",
     "lodash": "^3.6.0",
-    "mocha": "1.19.0"
+    "mocha": "^2.2.1"
   },
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib",
