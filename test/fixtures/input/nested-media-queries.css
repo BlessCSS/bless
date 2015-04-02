@@ -4090,18 +4090,20 @@
 #test,
 #test,
 #test,
-#test,
-#test,
-#test {
-  color: #900;
-}
+#test { background-color: red; }
 
-@keyframes progress-bar-with-stripes {
-  from {
-    background-position: 40px 0;
-  }
-
-  to {
-    background-position: 0;
-  }
+ @media screen and (max-width: 1199px) {
+    #selector {
+        color: #fffff;
+    }
+    @media screen and (max-width: 991px) {
+        #selector {
+            color: #fffff;
+        }
+        @media screen and (max-width: 767px) {
+            #selector {
+                color: #fffff;
+            }
+        }
+    }
 }

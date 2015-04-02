@@ -20,8 +20,7 @@ function count(ast) {
       return 0;
     default:
       return ast.rules
-        .filter(rule => rule.selectors)
-        .reduce((acc, rule) => acc + rule.selectors.length, 0);
+        .reduce((acc, rule) => acc + count(rule), 0);
   }
 }
 

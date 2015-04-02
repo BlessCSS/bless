@@ -5,21 +5,51 @@ import path from 'path';
 import chunk from '../src/chunk';
 import _ from 'lodash';
 
+function ensureDir(dir) {
+  return fsp.exists(dir)
+    .then(exists => {
+      if (exists) {
+        return null;
+      }
+
+      return fsp.mkdir(dir);
+    })
+    .catch(err => {
+      console.log(`Failed to create dir: ${dir}`);
+      console.log(err);
+    });
+}
+
 const inputFixturesDir = path.join(__dirname, 'fixtures', 'input');
 const outputFixturesDir = path.join(__dirname, 'fixtures', 'output', 'chunk');
+const outputDebugDirRoot = path.join(__dirname, 'fixtures', 'output-debug');
+const outputDebugDir = path.join(__dirname, 'fixtures', 'output-debug', 'chunk');
+
+let ensureDebugDir = ensureDir(outputDebugDirRoot)
+  .then(() => ensureDir(outputDebugDir));
 
 function testParserResults(fixtureName, result) {
-  return result.data.map((chunkData, index) => {
+  let dataChecks = result.data.map((chunkData, index) => {
     let outputFixtureFilename = index + '.css';
     let outputFixtureFilepath = path.join(outputFixturesDir, fixtureName, outputFixtureFilename);
+    let outputDebugFilepath = path.join(outputDebugDir, fixtureName, outputFixtureFilename);
 
-    return fsp.readFile(outputFixtureFilepath, { encoding: 'utf8' })
+    return ensureDebugDir
+      .then(() => ensureDir(path.dirname(outputDebugFilepath)))
+      .then(() => Promise.all([
+          fsp.readFile(outputFixtureFilepath, { encoding: 'utf8' }),
+          fsp.writeFile(outputDebugFilepath, chunkData)
+        ])
+        .then(([d, ]) => d)
+      )
       .then(outputFixtureData => {
-        chunkData = chunkData.replace(/\s+/g, '');
-        outputFixtureData = outputFixtureData.replace(/\s+/g, '');
-        expect(chunkData).to.equal(outputFixtureData);
+        let safeChunkData = chunkData.replace(/\s+/g, '');
+        let sageOutputFixtureData = outputFixtureData.replace(/\s+/g, '');
+        expect(safeChunkData).to.equal(sageOutputFixtureData);
       });
   });
+
+  return Promise.all(dataChecks);
 }
 
 function buildContext(fixtureName, filename) {
