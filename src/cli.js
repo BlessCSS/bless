@@ -13,7 +13,7 @@ try {
     console.log(err.stack.red);
   }
   console.log('');
-  console.log(yargs.help());
+  yargs.showHelp();
   process.exit(1);
 }
 

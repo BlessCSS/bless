@@ -4,21 +4,7 @@ import fsp from 'fs-promise';
 import path from 'path';
 import chunk from '../src/chunk';
 import _ from 'lodash';
-
-function ensureDir(dir) {
-  return fsp.exists(dir)
-    .then(exists => {
-      if (exists) {
-        return null;
-      }
-
-      return fsp.mkdir(dir);
-    })
-    .catch(err => {
-      console.log(`Failed to create dir: ${dir}`);
-      console.log(err);
-    });
-}
+import { ensureDir } from '../src/fs-utils';
 
 const inputFixturesDir = path.join(__dirname, 'fixtures', 'input');
 const outputFixturesDir = path.join(__dirname, 'fixtures', 'output', 'chunk');

@@ -4,6 +4,7 @@ import path from 'path';
 import fsp from 'fs-promise';
 import css from 'css';
 import { SELECTOR_LIMIT } from './constants';
+import { expand } from './fs-utils';
 
 function count(ast) {
   function countRules(rules) {
@@ -33,10 +34,6 @@ function countFile(filepath, options) {
       let ast = css.parse(contents);
       let selectorCount = count(ast);
 
-      if (options.progress) {
-        options.progress(filepath);
-      }
-
       return {
         filepath,
         selectorCount,
@@ -45,28 +42,21 @@ function countFile(filepath, options) {
     });
 }
 
-function countDir(directory, options) {
-  return fsp.readdir(directory)
-    .then(files => {
-      let fileCounts = files
-        .map(f => path.join(directory, f))
-        .map(f => countPath(f, options));
-
-      return Promise.all(fileCounts)
-        .then(results => _.flatten(results).filter(r => r !== undefined));
-    });
-}
-
 function countPath(filepath, options) {
   options = options || {};
-  return fsp.stat(filepath)
-    .then(stat => {
-      if (stat.isDirectory()) {
-        return countDir(filepath, options);
-      } else if (path.extname(filepath) === '.css') {
-        return countFile(filepath, options);
+
+  return expand(filepath)
+    .filter(x => /\.css$/.test(x))
+    .map(x => countFile(x, options))
+    .flatMap(x => {
+      if (options.progress) {
+        options.progress(x.filepath);
       }
-    });
+
+      return x;
+    })
+    .reduce((acc, x) => acc.concat([x]), [])
+    .toPromise(Promise);
 }
 
 export default {
