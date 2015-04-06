@@ -15,13 +15,15 @@ let ensureDebugDir = ensureDir(outputDebugDirRoot)
   .then(() => ensureDir(outputDebugDir));
 
 function testParserResults(fixtureName, result) {
+  let outputDebugFolder = path.join(outputDebugDir, fixtureName);
+  let ensureFixtureDebugDir = ensureDebugDir.then(() => ensureDir(outputDebugFolder));
+
   let dataChecks = result.data.map((chunkData, index) => {
     let outputFixtureFilename = index + '.css';
     let outputFixtureFilepath = path.join(outputFixturesDir, fixtureName, outputFixtureFilename);
-    let outputDebugFilepath = path.join(outputDebugDir, fixtureName, outputFixtureFilename);
+    let outputDebugFilepath = path.join(outputDebugFolder, outputFixtureFilename);
 
-    return ensureDebugDir
-      .then(() => ensureDir(path.dirname(outputDebugFilepath)))
+    return ensureFixtureDebugDir
       .then(() => Promise.all([
           fsp.readFile(outputFixtureFilepath, { encoding: 'utf8' }),
           fsp.writeFile(outputDebugFilepath, chunkData)
