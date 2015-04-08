@@ -1,4 +1,4 @@
-# css-band-aid [![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] ![Dependencies][dependencies-image] [![Join the chat at https://gitter.im/css-band-aid/css-band-aid][gitter-image]][gitter-url]
+# css-band-aid [![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![Dependencies][dependencies-image]][dependencies-url] [![Join the chat at https://gitter.im/css-band-aid/css-band-aid][gitter-image]][gitter-url]
 
 This is a fork of [Bless](http://blesscss.com).
 
@@ -22,6 +22,7 @@ See `LICENSE` file.
 [travis-url]: https://travis-ci.org/css-band-aid/css-band-aid
 [travis-image]: https://travis-ci.org/css-band-aid/css-band-aid.svg?branch=master
 
+[dependencies-url]: https://david-dm.org/css-band-aid/css-band-aid
 [dependencies-image]: https://david-dm.org/css-band-aid/css-band-aid.svg
 
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
