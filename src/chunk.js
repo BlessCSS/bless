@@ -36,7 +36,7 @@ function *chunks(ast) {
     selectorCount += ruleSelectorCount;
   }
 
-  yield createAst(splitRules);
+  yield createAst(splitRules, selectorCount);
 }
 
 export default function chunk(code, options) {
