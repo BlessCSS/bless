@@ -1,5 +1,6 @@
 import fsp from 'fs-promise';
 import chunker from './chunk';
+import polyfill from 'babel/polyfill';
 
 function chunk(code, options) {
   return chunker(code, options);
