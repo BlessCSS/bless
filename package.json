@@ -17,7 +17,9 @@
     "Matt Smith <mtscout7+css-band-aid@gmail.com>",
     "Alex Abenoja <abenojaalex@gmail.com>" 
   ],
+  "repository": "css-band-aid/css-band-aid",
   "version": "4.0.0",
+  "license": "Apache v2",
   "bin": {
     "bandaid": "./bin/bandaid"
   },
