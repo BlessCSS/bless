@@ -14,23 +14,25 @@
   ],
   "author": "Paul Young <paulyoungonline+bless@gmail.com>",
   "maintainers": [
-    "Matt Smith <mtscout6+css-band-aid@gmail.com>"
+    "Matt Smith <mtscout7+css-band-aid@gmail.com>",
+    "Alex Abenoja <abenojaalex@gmail.com>" 
   ],
   "version": "4.0.0",
   "bin": {
-    "blessc": "./bin/bandaid"
+    "bandaid": "./bin/bandaid"
   },
-  "main": "./lib/bless",
+  "main": "./lib/index",
   "directories": {
     "test": "./test"
   },
   "engines": {
-    "node": ">=0.8.x"
+    "node": ">=0.10.x"
   },
   "dependencies": {
     "babel": "^4.7.16",
     "colors": "^1.0.3",
     "columnify": "^1.4.1",
+    "css": "^2.2.0",
     "format-number": "1.0.2",
     "fs-promise": "^0.3.1",
     "lodash": "^3.6.0",
@@ -39,8 +41,6 @@
   },
   "devDependencies": {
     "chai": "^2.2.0",
-    "css": "^2.2.0",
-    "lodash": "^3.6.0",
     "mocha": "^2.2.1"
   },
   "scripts": {
