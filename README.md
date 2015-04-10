@@ -30,6 +30,7 @@ Examples:
   bandaid count <file|directory> --no-color
   bandaid chunk <file|directory>  (chunked files will reside next to input css files with the format *.##.css)
   bandaid chunk <file|directory> --out-dir <output directory>
+  bandaid chunk <file|directory> --sourcemaps (write out sourcemaps for css files with the format *.##.css.map)
 ```
 
 ## API Usage
@@ -38,27 +39,34 @@ Examples:
 Separate the cssString into chunks that can be used by IE.
 ```
 options:
-  souce   the path to the file containing the provided css.
+  source         the path to the file containing the provided css.
+  sourceMaps     a boolean for whether or not to output sourcemaps. source must be provided (defaults to false)
 
 returns:
   data                    An array of css strings for each css chunk
+  maps                    An array of css sourcemap strings for each css chunk. This will be empty if source is not provided or sourcemaps is not enabled
   totalSelectorCount      The total number of selectors in the provided css
 
 example:
   var parsedData = chunk(code, { source: './path/to/css.css' });
   parsedCss.data                  //An array of css strings for each css chunk
+  parsedCss.maps                  //An array of css sourcemap strings for each css chunk. This is empty if source is empty or sourcemaps is false.
   parsedCss.totalSelectorCount    //The total number of selectors in the provided css file
 ```
 
-### `chunkFile(filepath)`
+### `chunkFile(filepath, options)`
 Separates the provided file into chunks.
 ```
+options:
+  sourcemaps      A boolean for whether or not to output sourcemaps. (Defaults to false)
+
 returns:
   A promise object resolving the chunked data with the same properties as chunk()
 
 example:
-  chunkfile('./path/to/css.css').then(function(parsedCss) {
+  chunkfile('./path/to/css.css').then(function(parsedCss, { sourcemaps: true }) {
     parsedCss.data                  //An array of css strings for each css chunk
+    parsedCss.maps                  //An array of css sourcemap strings for each css chunk. This will be empty if sourcemaps is false.
     parsedCss.totalSelectorCount    //The total number of selectors in the provided css file
   });
 ```

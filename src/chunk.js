@@ -1,6 +1,6 @@
 // CLI Runner will work with pre-transpiled babel output, thus needing this
 // polyfill. Not necessary when running unit tests.
-import from 'babel/polyfill';
+import polyfill from 'babel/polyfill';
 import css from 'css';
 import { count } from './count';
 import { SELECTOR_LIMIT } from './constants';
@@ -40,14 +40,21 @@ function *chunks(ast) {
 }
 
 export default function chunk(code, options) {
-  let fullAst = css.parse(code, options);
+  let fullAst = css.parse(code, { source: options.source });
   let totalSelectorCount = 0;
   let data = [];
+  let maps = [];
 
   for(let { ast, selectorCount } of chunks(fullAst)) {
+    let stringified = css.stringify(ast, { sourcemap: options.sourcemaps });
     totalSelectorCount += selectorCount;
-    data.push(css.stringify(ast));
+    if (options.source && options.sourcemaps) {
+      data.push(stringified.code);
+      maps.push(stringified.map);
+    } else {
+      data.push(stringified);
+    }
   }
 
-  return { data, totalSelectorCount };
+  return { data, maps, totalSelectorCount };
 }

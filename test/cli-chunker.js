@@ -37,17 +37,47 @@ function testParserResults(fixtureName, result) {
       });
   });
 
-  return Promise.all(dataChecks);
+  let sourceChecks = result.maps.map((sourcemap, index) => {
+    let outputFixtureFilename = index + '.css.map';
+    let outputFixtureFilepath = path.join(outputFixturesDir, fixtureName, outputFixtureFilename);
+    let outputDebugFilepath = path.join(outputDebugFolder, outputFixtureFilename);
+    let sourcemapString = JSON.stringify(sourcemap);
+
+    return ensureFixtureDebugDir
+      .then(() => Promise.all([
+          fsp.readFile(outputFixtureFilepath, { encoding: 'utf8' }),
+          fsp.writeFile(outputDebugFilepath, sourcemapString)
+        ])
+        .then(([d, ]) => d)
+      )
+      .then(outputFixtureData => {
+        let safeChunkData = sourcemapString.replace(/\s+/g, '');
+        let sageOutputFixtureData = outputFixtureData.replace(/\s+/g, '');
+        expect(safeChunkData).to.equal(sageOutputFixtureData);
+      });
+  });
+
+  return Promise.all([dataChecks, sourceChecks]);
 }
 
 function buildContext(fixtureName, filename) {
   return {
-    [`with data from the fixture "${filename}"`]: {
-      'should parse the CSS correctly'(done) {
+    [`with data from the fixture "${filename}" should parse the CSS correctly`]: {
+      'without sourcemaps'(done) {
         let inputFixtureFilepath = path.join(inputFixturesDir, filename);
         fsp.readFile(inputFixtureFilepath, { encoding: 'utf8' })
           .then(inputFixtureData => {
-            let result = chunk(inputFixtureData);
+            let result = chunk(inputFixtureData, { sourcemaps: false });
+            return testParserResults(fixtureName, result);
+          })
+          .then(() => done())
+          .catch(err => done(err));
+      },
+      'with sourcemaps'(done) {
+        let inputFixtureFilepath = path.join(inputFixturesDir, filename);
+        fsp.readFile(inputFixtureFilepath, { encoding: 'utf8' })
+          .then(inputFixtureData => {
+            let result = chunk(inputFixtureData, { sourcemaps: true, source: inputFixtureFilepath });
             return testParserResults(fixtureName, result);
           })
           .then(() => done())

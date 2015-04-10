@@ -14,13 +14,25 @@ const testExpectations = [
 
 function buildContext(filename, { chunkCount, totalSelectorCount }) {
   return {
-    [`with data from the fixture "${filename}"`]: {
-      'should chunk the css file correctly'(done) {
+    [`with data from the fixture "${filename}" should chunk the css file correctly`]: {
+      'with sourcemaps'(done) {
+        let inputFixtureFilePath = path.join(inputFixturesDir, filename);
+        chunkFile(inputFixtureFilePath, { sourcemaps: true })
+          .then(results => {
+            expect(results.data.length).to.be.equal(chunkCount, 'The number of chunks is incorrect');
+            expect(results.data.length).to.be.equal(results.maps.length, 'There should be the same number of maps as chunks');
+            expect(results.totalSelectorCount).to.be.equal(totalSelectorCount, 'The totalSelectorCount should be calculated');
+          })
+          .then(done)
+          .catch(err => done(err));
+      },
+      'without sourcemaps'(done) {
         let inputFixtureFilePath = path.join(inputFixturesDir, filename);
         chunkFile(inputFixtureFilePath)
           .then(results => {
-            expect(results.data.length).to.be.equal(chunkCount);
-            expect(results.totalSelectorCount).to.be.equal(totalSelectorCount);
+            expect(results.data.length).to.be.equal(chunkCount, 'The number of chunks is incorrect');
+            expect(results.maps).to.be.empty;
+            expect(results.totalSelectorCount).to.be.equal(totalSelectorCount, 'The totalSelectorCount should be calculated');
           })
           .then(done)
           .catch(err => done(err));

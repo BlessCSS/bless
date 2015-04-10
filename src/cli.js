@@ -1,5 +1,5 @@
 /* eslint no-process-exit: 0 */
-import from 'colors';
+import colors from 'colors';
 import yargs from 'yargs';
 import parseCliArgs from './parse-cli-args';
 
