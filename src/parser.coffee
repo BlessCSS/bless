@@ -75,8 +75,10 @@ parser = (data) ->
         #
         numNestedRuleSelectors = 0
 
-        for nestedRule in rule.rules
-          numNestedRuleSelectors += nestedRule.selectors.length
+        if rule.rules
+          for nestedRule in rule.rules
+            if nestedRule && nestedRule.selectors
+             numNestedRuleSelectors += nestedRule.selectors.length
 
         startNewAst() if numSelectors + numNestedRuleSelectors > SELECTOR_LIMIT
 
