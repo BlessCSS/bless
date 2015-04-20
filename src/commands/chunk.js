@@ -1,5 +1,5 @@
 /* eslint no-process-exit: 0 */
-import colors from 'colors';
+import 'colors';
 import yargs from 'yargs';
 import common from './common-yargs';
 import { chunkFile } from '../index';
@@ -13,7 +13,7 @@ function executeChunk(input, outputDir, chunkOptions) {
 
   return chunkFile(input, chunkOptions)
     .then(({data, maps, totalSelectorCount}) => {
-      let chunks = data.map((ast, index) => {
+      let chunkData = data.map((ast, index) => {
         let outputFilename = path.join(outputDir, `${basename}.${index}.css`);
 
         return fsp.writeFile(outputFilename, ast);
@@ -25,7 +25,7 @@ function executeChunk(input, outputDir, chunkOptions) {
         return fsp.writeFile(outputFilename, JSON.stringify(sourcemap));
       });
 
-      return Promise.all([chunks, sourcemaps])
+      return Promise.all([chunkData, sourcemaps])
         .then(([chunks, ]) => chunks);
     });
 }
@@ -112,4 +112,4 @@ export default {
   examples,
   yargsSetup,
   parseArgs
-}
+};

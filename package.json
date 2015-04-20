@@ -42,12 +42,15 @@
     "yargs": "^3.6.0"
   },
   "devDependencies": {
+    "babel-eslint": "^3.0.1",
     "chai": "^2.2.0",
+    "eslint": "^0.19.0",
     "mocha": "^2.2.1"
   },
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib",
-    "test": "mocha --reporter spec --ui exports",
-    "prepublish": "npm run build"
+    "test": "mocha --reporter spec --ui exports && npm run lint",
+    "lint": "eslint ./",
+    "prepublish": "npm run test && npm run build"
   }
 }

@@ -1,7 +1,5 @@
 import { expect } from 'chai';
-import fs from 'fs';
 import path from 'path';
-import fsp from 'fs-promise';
 import { chunkFile } from '../src';
 import _ from 'lodash';
 

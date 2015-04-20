@@ -4,4 +4,4 @@ import chunk from './chunk';
 export default {
   count,
   chunk
-}
+};

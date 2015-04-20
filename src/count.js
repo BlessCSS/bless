@@ -1,6 +1,4 @@
 /* eslint no-use-before-define: 0 */
-import _ from 'lodash';
-import path from 'path';
 import fsp from 'fs-promise';
 import css from 'css';
 import { SELECTOR_LIMIT } from './constants';
@@ -62,4 +60,4 @@ function countPath(filepath, options) {
 export default {
   count,
   countPath
-}
+};

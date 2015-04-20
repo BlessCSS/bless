@@ -45,4 +45,4 @@ function ensureDir(dir) {
 export default {
   expand,
   ensureDir
-}
+};
