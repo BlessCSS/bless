@@ -1,6 +1,3 @@
-// CLI Runner will work with pre-transpiled babel output, thus needing this
-// polyfill. Not necessary when running unit tests.
-import polyfill from 'babel/polyfill';
 import css from 'css';
 import { count } from './count';
 import { SELECTOR_LIMIT } from './constants';

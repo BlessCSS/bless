@@ -1,0 +1,2 @@
+--ignore-dir=node_modules
+--ignore-dir=lib
