@@ -1,3 +1,2 @@
 #!/usr/bin/env node
-require('babel/polyfill');
 require(require('path').join(__dirname, '..', 'lib', 'cli'));
