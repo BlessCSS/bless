@@ -18,7 +18,7 @@
     "Alex Abenoja <abenojaalex@gmail.com>"
   ],
   "repository": "css-band-aid/css-band-aid",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "license": "Apache v2",
   "bin": {
     "bandaid": "./bin/bandaid"
