@@ -12,6 +12,7 @@
   ],
   "homepage": "https://github.com/paulyoung/bless.js",
   "bugs": "https://github.com/paulyoung/bless.js/issues",
+  "license": "MIT",
   "author": {
     "name": "Paul Young",
     "url": "https://paulyoung.me"
