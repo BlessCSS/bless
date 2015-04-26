@@ -1,17 +1,20 @@
 colors = require 'colors'
-formatNumber = require('format-number')()
+
 fs = require 'fs'
 path = require 'path'
-parser = require '../lib/parser'
 pjson = require '../package.json'
-pluralize = require 'pluralize'
 program = require 'commander'
+
+importer = require '../lib/importer'
+parser = require '../lib/parser'
+reporter = require '../lib/reporter'
 
 
 program
   .version(pjson.version)
   .usage('<input file> [<output file>] [options]')
   .option('-f, --force', 'modify the input file provided'.yellow)
+  .option('-s, --suffix', 'applied to files that are imported. defaults to -blessed'.yellow)
   .parse process.argv
 
 
@@ -39,7 +42,7 @@ output = program.args[1]
 
 # If output was not provided, use the input parameter
 #
-output = output or input
+output ?= input
 
 # Exit if output was not provided and the input is to be read from stdin.
 #
@@ -53,6 +56,15 @@ if output is '-'
 if output is input and not program.force
   console.log 'blessc: use --force or -f to modify the input file'.red
   process.exit 1
+
+
+# Set the suffix for imported files.
+#
+suffix = program.suffix
+
+# Use a default suffix is one isn't provided.
+#
+suffix ?= "blessed"
 
 
 # For now, assume that the input is not stdin.
@@ -70,27 +82,37 @@ fs.readFile input, 'utf8', (err, data) ->
 
   numFilesWritten = 0
 
-  logSummary = ->
-    message = []
+  printReport = ->
+    report = reporter
+      numSelectors: numSelectors
+      numFiles: numFiles
 
-    message.push "Input file contained #{formatNumber(numSelectors)} #{pluralize('selector', numSelectors)}."
-
-    if numFiles > 1
-      message.push "#{formatNumber(numFiles)} #{pluralize('file', numFiles)} created."
-    else
-      message.push 'No changes made.'
-
-    console.log  message.join(' ').green.bold
+    console.log report.green.bold
 
 
-  if numFiles > 1
-    for fileData, index in result.data
-      newFilename = "#{path.join(dirname, filename)}-blessed#{index + 1}#{extension}"
-
-      fs.writeFile newFilename, fileData, (err) ->
-        throw err if err
-        console.log "Created #{newFilename}".yellow
-        numFilesWritten++
-        logSummary() if numFilesWritten is numFiles
+  if numFiles <= 1
+    printReport()
   else
-    logSummary()
+    for fileData, index in result.data
+      if index is 0
+        importStatements = importer
+          numFiles: result.data.length
+          output: output
+          suffix: suffix
+
+        fileData = """
+          #{importStatements}\n
+          #{fileData}
+        """
+
+        indexedSuffix = ""
+      else
+        indexedSuffix = "-#{suffix}-#{index}"
+
+      newFilename = "#{path.join(dirname, filename)}#{indexedSuffix}#{extension}"
+
+      do (newFilename) ->
+        fs.writeFile newFilename, "#{fileData}\n", (err) ->
+          throw err if err
+          numFilesWritten++
+          printReport() if numFilesWritten is numFiles
