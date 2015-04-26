@@ -1,4 +1,4 @@
-path = require 'path'
+path = require "path"
 
 importer = (options) ->
   {output, suffix, numFiles} = options

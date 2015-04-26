@@ -1,12 +1,12 @@
-{expect} = require 'chai'
-importer = require '../lib/importer'
+{expect} = require "chai"
+importer = require "../lib/importer"
 
-describe 'importer', ->
+describe "importer", ->
 
-  describe 'when requesting imports', ->
+  describe "when requesting imports", ->
 
-    context 'for zero files', ->
-      it 'should not produce any import statements', ->
+    context "for zero files", ->
+      it "should not produce any import statements", ->
         imports = importer
           numFiles: 0
           output: "~/output.css"
@@ -14,8 +14,8 @@ describe 'importer', ->
 
         expect(imports).to.equal ""
 
-    context 'for one file', ->
-      it 'should not produce any import statements', ->
+    context "for one file", ->
+      it "should not produce any import statements", ->
         imports = importer
           numFiles: 1
           output: "~/output.css"
@@ -23,8 +23,8 @@ describe 'importer', ->
 
         expect(imports).to.equal ""
 
-    context 'for two files', ->
-      it 'should produce the correct import statements', ->
+    context "for two files", ->
+      it "should produce the correct import statements", ->
         imports = importer
           numFiles: 2
           output: "~/output.css"
@@ -34,8 +34,8 @@ describe 'importer', ->
           @import("./output-blessed-1.css");
         """
 
-    context 'for three files', ->
-      it 'should produce the correct import statements', ->
+    context "for three files", ->
+      it "should produce the correct import statements", ->
         imports = importer
           numFiles: 3
           output: "~/output.css"

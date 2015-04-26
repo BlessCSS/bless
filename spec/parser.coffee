@@ -1,22 +1,22 @@
-{expect} = require 'chai'
-fs = require 'fs'
-path = require 'path'
-parser = require '../lib/parser'
+{expect} = require "chai"
+fs = require "fs"
+path = require "path"
+parser = require "../lib/parser"
 
 
-inputFixturesDir = path.join __dirname, 'fixtures', 'input'
-outputFixturesDir = path.join __dirname, 'fixtures', 'output', 'parser'
+inputFixturesDir = path.join __dirname, "fixtures", "input"
+outputFixturesDir = path.join __dirname, "fixtures", "output", "parser"
 
 
 # Helper function for adding contexts to the spec.
 #
 addContext = (fixtureName, test) ->
 
-  # Set a default test case if one isn't provided.
+  # Set a default test case if one isn"t provided.
   #
   test ?= (result) ->
 
-    # Compare each array item to it's relevant output fixture file.
+    # Compare each array item to it"s relevant output fixture file.
     #
     for parserData, index in result.data
 
@@ -24,12 +24,12 @@ addContext = (fixtureName, test) ->
       #
       outputFixtureFilename = "#{index}.css"
       outputFixtureFilepath = path.join outputFixturesDir, fixtureName, outputFixtureFilename
-      outputFixtureData = fs.readFileSync outputFixtureFilepath, { encoding: 'utf8' }
+      outputFixtureData = fs.readFileSync outputFixtureFilepath, { encoding: "utf8" }
 
       # Remove whitespace from both data sets.
       #
-      parserData = parserData.replace(/\s+/g, '');
-      outputFixtureData = outputFixtureData.replace(/\s+/g, '');
+      parserData = parserData.replace(/\s+/g, "");
+      outputFixtureData = outputFixtureData.replace(/\s+/g, "");
 
       expect(parserData).to.equal outputFixtureData
 
@@ -42,13 +42,13 @@ addContext = (fixtureName, test) ->
   spec.parser[context] = {}
 
   inputFixtureFilepath = path.join inputFixturesDir, inputFixtureFilename
-  inputFixtureData = fs.readFileSync inputFixtureFilepath, { encoding: 'utf8' }
+  inputFixtureData = fs.readFileSync inputFixtureFilepath, { encoding: "utf8" }
   result = parser inputFixtureData
 
 
   # Add the predicate and test case to the context.
   #
-  spec.parser[context]['should parse the CSS correctly'] = ->
+  spec.parser[context]["should parse the CSS correctly"] = ->
     test result
 
 

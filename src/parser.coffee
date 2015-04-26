@@ -1,4 +1,4 @@
-css = require 'css'
+css = require "css"
 
 
 SELECTOR_LIMIT = 4095
@@ -6,7 +6,7 @@ SELECTOR_LIMIT = 4095
 # Helper function for creating new ASTs.
 #
 createAst = (rules) ->
-  type: 'stylesheet'
+  type: "stylesheet"
   stylesheet:
     rules: rules
 
@@ -52,7 +52,7 @@ parser = (data) ->
 
       # Regular CSS rules.
       #
-      when 'rule'
+      when "rule"
         # Check if adding this rule will break the selector limit. If so,
         # produce a new AST first.
         #
@@ -65,7 +65,7 @@ parser = (data) ->
 
       # No-ops.
       #
-      when 'comment'
+      when "comment"
 
       # Nested rules. Media queries, for example.
       #
