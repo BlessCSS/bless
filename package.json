@@ -17,7 +17,7 @@
   },
   "main": "./lib/bless",
   "directories": {
-    "test": "./test"
+    "test": "./spec"
   },
   "engines": {
     "node": ">=0.8.x"
