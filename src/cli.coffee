@@ -14,7 +14,7 @@ program
   .version(pjson.version)
   .usage("<input file> [<output file>] [options]")
   .option("-f, --force", "modify the input file provided".yellow)
-  .option("-s, --suffix", "applied to files that are imported. defaults to -blessed".yellow)
+  .option("-s, --suffix", "applied to files that are imported. defaults to blessed".yellow)
   .parse process.argv
 
 
