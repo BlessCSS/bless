@@ -10,7 +10,10 @@
     "sass",
     "stylus"
   ],
-  "author": "Paul Young <paulyoungonline+bless@gmail.com>",
+  "author": {
+    "name": "Paul Young",
+    "url": "https://paulyoung.me"
+  },
   "version": "4.0.0",
   "bin": {
     "blessc": "./bin/blessc"
