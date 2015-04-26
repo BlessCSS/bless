@@ -20,7 +20,7 @@
     "test": "./spec"
   },
   "engines": {
-    "node": ">=0.8.x"
+    "node": "0.10"
   },
   "dependencies": {
     "commander": "1.2.0",
