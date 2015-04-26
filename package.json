@@ -11,6 +11,7 @@
     "stylus"
   ],
   "homepage": "https://github.com/paulyoung/bless.js",
+  "bugs": "https://github.com/paulyoung/bless.js/issues",
   "author": {
     "name": "Paul Young",
     "url": "https://paulyoung.me"
