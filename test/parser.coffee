@@ -39,7 +39,7 @@ addContext = (fixtureName, test) ->
   inputFixtureFilename = "#{fixtureName}.css"
   context = "with data from the fixture \"#{inputFixtureFilename}\""
 
-  spec.Parser[context] = {}
+  spec.parser[context] = {}
 
   inputFixtureFilepath = path.join inputFixturesDir, inputFixtureFilename
   inputFixtureData = fs.readFileSync inputFixtureFilepath, { encoding: 'utf8' }
@@ -48,14 +48,14 @@ addContext = (fixtureName, test) ->
 
   # Add the predicate and test case to the context.
   #
-  spec.Parser[context]['should parse the CSS correctly'] = ->
+  spec.parser[context]['should parse the CSS correctly'] = ->
     test result
 
 
 # Start a new spec.
 #
 spec =
-  Parser: {}
+  parser: {}
 
 
 # Add a new context for each input fixture file.
