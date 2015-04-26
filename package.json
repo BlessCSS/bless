@@ -45,7 +45,7 @@
     "mocha": "1.19.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha spec --compilers coffee:coffee-script/register --reporter spec --ui exports"
     "build": "./node_modules/.bin/coffee --compile --output lib/ src/",
+    "test": "npm run build; ./node_modules/.bin/mocha spec --compilers coffee:coffee-script/register --reporter spec --ui exports"
   }
 }
