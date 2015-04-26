@@ -10,6 +10,7 @@
     "sass",
     "stylus"
   ],
+  "homepage": "https://github.com/paulyoung/bless.js",
   "author": {
     "name": "Paul Young",
     "url": "https://paulyoung.me"
