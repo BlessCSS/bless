@@ -2,7 +2,7 @@
 This is a development branch which is leading up to the release of v4.0.0
 ***
 
-# bless [![Build Status](https://travis-ci.org/paulyoung/bless.js.svg?branch=4.0.0-development)](https://travis-ci.org/paulyoung/bless.js)
+# bless [![Build Status](https://travis-ci.org/BlessCSS/bless.svg?branch=4.0.0-development)](https://travis-ci.org/BlessCSS/bless)
 <http://blesscss.com>
 
 ## Usage
