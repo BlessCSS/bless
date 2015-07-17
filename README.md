@@ -1,21 +1,21 @@
-# css-band-aid [![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![Dependencies][dependencies-image]][dependencies-url] [![Join the chat at https://gitter.im/css-band-aid/css-band-aid][gitter-image]][gitter-url]
+# bless [![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![Dependencies][dependencies-image]][dependencies-url] [![Join the chat at https://gitter.im/BlessCSS/bless][gitter-image]][gitter-url]
 
 This is a fork of [Bless](http://blesscss.com). 
 
-Sometimes we can't get away from supporting Internet Explorer 9 and below. Unfortunately, this support can sometimes break our css due to [these limitations](http://blogs.msdn.com/b/ieinternals/archive/2011/05/14/10164546.aspx), and when it does break it is almost impossible to track down. How do you get around such a crippling limitation? Well, you can slap this `css-band-aid` on top of your css and you should be alright.
+Sometimes we can't get away from supporting Internet Explorer 9 and below. Unfortunately, this support can sometimes break our css due to [these limitations](http://blogs.msdn.com/b/ieinternals/archive/2011/05/14/10164546.aspx), and when it does break it is almost impossible to track down. How do you get around such a crippling limitation? Well, you can slap this `bless` on top of your css and you should be alright.
 
-`css-band-aid` analyzes your css files' selector counts and splits them appropriately, bringing them under the Internet Explorer's selector limit.
+`bless` analyzes your css files' selector counts and splits them appropriately, bringing them under the Internet Explorer's selector limit.
 
 ## Installation
 
 To use the cli tools:
 ```
-npm install -g css-band-aid
+npm install -g bless
 ```
 
 To use the public api as part of your package:
 ```
-npm install css-band-aid
+npm install bless
 ```
 
 ## CLI Usage
@@ -26,11 +26,11 @@ Commands:
   chunk   breaks up css file into multiple files if it exceeds IE selector limits
 
 Examples:
-  bandaid count <file|directory>
-  bandaid count <file|directory> --no-color
-  bandaid chunk <file|directory>  (chunked files will reside next to input css files with the format *.##.css)
-  bandaid chunk <file|directory> --out-dir <output directory>
-  bandaid chunk <file|directory> --sourcemaps (write out sourcemaps for css files with the format *.##.css.map)
+  blessc count <file|directory>
+  blessc count <file|directory> --no-color
+  blessc chunk <file|directory>  (chunked files will reside next to input css files with the format *.##.css)
+  blessc chunk <file|directory> --out-dir <output directory>
+  blessc chunk <file|directory> --sourcemaps (write out sourcemaps for css files with the format *.##.css.map)
 ```
 
 ## API Usage
@@ -77,16 +77,14 @@ See `LICENSE` file.
 
 > Copyright (c) Paul Young
 
-> Copyright (c) Css-Band-Aid
+[npm-url]: https://npmjs.org/package/bless
+[npm-image]: http://img.shields.io/npm/v/bless.svg
 
-[npm-url]: https://npmjs.org/package/css-band-aid
-[npm-image]: http://img.shields.io/npm/v/css-band-aid.svg
+[travis-url]: https://travis-ci.org/BlessCSS/bless
+[travis-image]: https://travis-ci.org/BlessCSS/bless.svg?branch=master
 
-[travis-url]: https://travis-ci.org/css-band-aid/css-band-aid
-[travis-image]: https://travis-ci.org/css-band-aid/css-band-aid.svg?branch=master
-
-[dependencies-url]: https://david-dm.org/css-band-aid/css-band-aid
-[dependencies-image]: https://david-dm.org/css-band-aid/css-band-aid.svg
+[dependencies-url]: https://david-dm.org/BlessCSS/bless
+[dependencies-image]: https://david-dm.org/BlessCSS/bless.svg
 
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
-[gitter-url]: https://gitter.im/css-band-aid/css-band-aid
+[gitter-url]: https://gitter.im/BlessCSS/bless

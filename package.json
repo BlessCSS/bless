@@ -1,11 +1,10 @@
 {
-  "name": "css-band-aid",
-  "description": "CSS Post-Processor",
-  "url": "https://github.com/css-band-aid/css-band-aid",
+  "name": "bless",
+  "description": "CSS Post-Processor that chunks CSS files per IE9 selector count restrictions",
+  "url": "http://blesscss.com",
   "keywords": [
     "css",
     "parser",
-    "band-aid",
     "less",
     "sass",
     "stylus",
@@ -14,14 +13,14 @@
   ],
   "author": "Paul Young <paulyoungonline+bless@gmail.com>",
   "maintainers": [
-    "Matt Smith <mtscout6+css-band-aid@gmail.com>",
+    "Matt Smith <mtscout6+bless@gmail.com>",
     "Alex Abenoja <abenojaalex@gmail.com>"
   ],
-  "repository": "css-band-aid/css-band-aid",
+  "repository": "BlessCSS/bless",
   "version": "4.2.4",
-  "license": "Apache v2",
+  "license": "MIT",
   "bin": {
-    "bandaid": "./bin/bandaid"
+    "blessc": "./bin/blessc"
   },
   "main": "./lib/index",
   "directories": {
