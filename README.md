@@ -1,7 +1,5 @@
 # bless [![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![Dependencies][dependencies-image]][dependencies-url] [![Join the chat at https://gitter.im/BlessCSS/bless][gitter-image]][gitter-url]
 
-This is a fork of [Bless](http://blesscss.com). 
-
 Sometimes we can't get away from supporting Internet Explorer 9 and below. Unfortunately, this support can sometimes break our css due to [these limitations](http://blogs.msdn.com/b/ieinternals/archive/2011/05/14/10164546.aspx), and when it does break it is almost impossible to track down. How do you get around such a crippling limitation? Well, you can slap this `bless` on top of your css and you should be alright.
 
 `bless` analyzes your css files' selector counts and splits them appropriately, bringing them under the Internet Explorer's selector limit.
