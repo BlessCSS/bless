@@ -11,6 +11,6 @@
     "no-undef": 1,
     "no-var": 2,
     "quotes": [1, "single", "avoid-escape"],
-    "strict": 0
+    "strict": [2, "never"]
   }
 }
