@@ -49,7 +49,7 @@
     "mocha": "^2.2.1"
   },
   "scripts": {
-    "build": "rm -rf lib && babel --optional runtime src --out-dir lib",
+    "build": "rm -rf lib && babel src --out-dir lib",
     "test": "mocha --reporter spec --ui exports && npm run lint",
     "lint": "eslint ./",
     "prepublish": "npm run test && npm run build"
