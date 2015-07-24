@@ -44,7 +44,7 @@
     "babel": "^5.0.12",
     "babel-eslint": "^3.0.1",
     "chai": "^2.2.0",
-    "eslint": "^0.19.0",
+    "eslint": "^0.24.1",
     "mocha": "^2.2.1"
   },
   "scripts": {

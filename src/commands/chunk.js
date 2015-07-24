@@ -26,7 +26,7 @@ function executeChunk(input, outputDir, chunkOptions) {
       });
 
       return Promise.all([chunkData, sourcemaps])
-        .then(([chunks, ]) => chunks);
+        .then(([chunks, __]) => chunks);
     });
 }
 

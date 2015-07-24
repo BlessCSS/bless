@@ -28,7 +28,7 @@ function testParserResults(fixtureName, result) {
           fsp.readFile(outputFixtureFilepath, { encoding: 'utf8' }),
           fsp.writeFile(outputDebugFilepath, chunkData)
         ])
-        .then(([d, ]) => d)
+        .then(([d, __]) => d)
       )
       .then(outputFixtureData => {
         let safeChunkData = chunkData.replace(/\s+/g, '');
@@ -48,7 +48,7 @@ function testParserResults(fixtureName, result) {
           fsp.readFile(outputFixtureFilepath, { encoding: 'utf8' }),
           fsp.writeFile(outputDebugFilepath, sourcemapString)
         ])
-        .then(([d, ]) => d)
+        .then(([d, __]) => d)
       )
       .then(outputFixtureData => {
         let safeChunkData = sourcemapString.replace(/\s+/g, '');
