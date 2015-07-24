@@ -1,14 +1,56 @@
 {
-  "name"            : "bless",
-  "description"     : "CSS Post-Processor",
-  "url"             : "http://blesscss.com",
-  "keywords"        : ["css", "parser", "bless", "less", "sass", "stylus"],
-  "author"          : "Paul Young <paulyoungonline+bless@gmail.com>",
-  "contributors"    : [],
-  "version"         : "3.0.3",
-  "bin"             : { "blessc": "./bin/blessc" },
-  "main"            : "./lib/bless/index",
-  "directories"     : { "test": "./test" },
-  "engines"         : { "node": ">=0.6.0" },
-  "devDependencies" : { "vows": "~0.6.2" }
+  "name": "bless",
+  "version": "4.0.0-alpha.0",
+  "description": "CSS Post-Processor that chunks CSS files per IE9 selector count restrictions",
+  "url": "http://blesscss.com",
+  "keywords": [
+    "css",
+    "parser",
+    "less",
+    "sass",
+    "stylus",
+    "ie9",
+    "selector-limit"
+  ],
+  "author": "Paul Young <paulyoungonline+bless@gmail.com>",
+  "maintainers": [
+    "Matt Smith <mtscout6+bless@gmail.com>",
+    "Alex Abenoja <abenojaalex@gmail.com>"
+  ],
+  "repository": "BlessCSS/bless",
+  "license": "MIT",
+  "bin": {
+    "blessc": "./bin/blessc"
+  },
+  "main": "./lib/index",
+  "directories": {
+    "test": "./test"
+  },
+  "engines": {
+    "node": ">=0.10.x"
+  },
+  "dependencies": {
+    "babel-runtime": "^5.1.11",
+    "colors": "^1.0.3",
+    "columnify": "^1.4.1",
+    "css": "^2.2.0",
+    "format-number": "1.0.2",
+    "fs-promise": "^0.3.1",
+    "lodash": "^3.6.0",
+    "rx": "^2.4.9",
+    "yargs": "^3.6.0"
+  },
+  "devDependencies": {
+    "babel": "^5.0.12",
+    "babel-eslint": "^3.0.1",
+    "chai": "^2.2.0",
+    "eslint": "^0.19.0",
+    "mocha": "^2.2.1"
+  },
+  "scripts": {
+    "build": "rm -rf lib && babel src --out-dir lib",
+    "test": "mocha --reporter spec --ui exports && npm run lint",
+    "lint": "eslint ./",
+    "prepublish": "npm run test && npm run build"
+  }
 }

@@ -1,0 +1,16 @@
+{
+  "env": {
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "comma-spacing": 1,
+    "key-spacing": 0,
+    "no-underscore-dangle": 0,
+    "no-unused-vars": [1, { "vars": "all", "args": "none" }],
+    "no-undef": 1,
+    "no-var": 2,
+    "quotes": [1, "single", "avoid-escape"],
+    "strict": [2, "never"]
+  }
+}
