@@ -1,0 +1,32 @@
+#!/usr/bin/env babel-node
+/* eslint no-process-exit: 0 */
+
+import 'colors';
+import { exec, spawn } from 'child-process-promise';
+
+const isCI = process.env.CONTINUOUS_INTEGRATION === 'true';
+
+function myspawn(command) {
+  console.log(`> ${command}\n`);
+  let [cmd, ...args] = command.split(' ');
+
+  return spawn(cmd, args, {stdio: 'inherit'})
+    .then(() => console.log(''));
+}
+
+myspawn('npm run lint')
+  .then(() => myspawn('mocha --compilers js:babel/register'))
+  .then(() => {
+    console.log('Gathering Code Coverage...\n'.cyan);
+    return exec('rm -rf ./.coverage');
+  })
+  .then(() => myspawn('babel-node node_modules/.bin/isparta cover node_modules/.bin/_mocha -- --reporter dot'))
+  .then(() => {
+    if (isCI) {
+      return exec(`cat ./.coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js`);
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    process.exit(1);
+  });

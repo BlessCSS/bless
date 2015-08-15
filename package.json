@@ -44,12 +44,16 @@
     "babel": "^5.0.12",
     "babel-eslint": "^3.0.1",
     "chai": "^3.2.0",
+    "child-process-promise": "^1.1.0",
+    "coveralls": "^2.11.4",
     "eslint": "^0.24.1",
+    "isparta": "^3.0.3",
+    "istanbul": "^0.3.17",
     "mocha": "^2.2.1"
   },
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib",
-    "test": "mocha --reporter spec --ui exports && npm run lint",
+    "test": "./run-tests",
     "lint": "eslint ./",
     "prepublish": "npm run test && npm run build"
   }

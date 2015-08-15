@@ -1,2 +1,14 @@
 #!/usr/bin/env node
-require(require('path').join(__dirname, '..', 'lib', 'cli'));
+/* eslint no-var: 0, no-process-exit: 0 */
+
+require('colors');
+var entry = require(require('path').join(__dirname, '..', 'lib', 'cli'));
+
+entry(process.argv)
+  .then(function(exitCode) {
+    process.exit(exitCode);
+  })
+  .catch(function(err) {
+    console.log(err.toString().red);
+    process.exit(1);
+  });
