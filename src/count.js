@@ -20,6 +20,7 @@ function count(ast) {
     case 'keyframes':
     case 'import':
     case 'supports':
+    case 'charset':
       return 0;
     default:
       return countRules(ast.rules);
