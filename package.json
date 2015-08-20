@@ -1,6 +1,6 @@
 {
   "name": "bless",
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0-alpha.1",
   "description": "CSS Post-Processor that chunks CSS files per IE9 selector count restrictions",
   "url": "http://blesscss.com",
   "keywords": [
