@@ -3,20 +3,18 @@ import 'colors';
 import yargs from 'yargs';
 import parseCliArgs from './parse-cli-args';
 
-export default function cliExeute(argv) {
-  let command;
+let command;
 
-  try {
-    command = parseCliArgs(argv);
-  } catch(err) {
-    console.log(`Failed: ${err.toString()}`.red);
-    if (err.stack) {
-      console.log(err.stack.red);
-    }
-    console.log('');
-    yargs.showHelp();
-    return Promise.resolve(1);
+try {
+  command = parseCliArgs(process.argv);
+} catch(err) {
+  console.log(`Failed: ${err.toString()}`.red);
+  if (err.stack) {
+    console.log(err.stack.red);
   }
-
-  return command.execute(command.options);
+  console.log('');
+  yargs.showHelp();
+  process.exit(1);
 }
+
+command.execute(command.options);
