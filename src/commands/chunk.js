@@ -1,4 +1,3 @@
-/* eslint no-process-exit: 0 */
 import 'colors';
 import yargs from 'yargs';
 import common from './common-yargs';
@@ -31,7 +30,7 @@ function executeChunk(input, outputDir, chunkOptions) {
 }
 
 function execute(options) {
-  expand(options.input)
+  return expand(options.input)
     .filter(x => /\.css$/.test(x))
     .map(filepath => {
       let outputDir = options.outDir;
@@ -43,11 +42,8 @@ function execute(options) {
     .reduce((acc, x) => acc.concat([x]), [])
     .toPromise(Promise)
     .then(() => {
-      console.log('complete');
-    })
-    .catch(err => {
-      console.log(err.toString().red);
-      process.exit(1);
+      console.log('Complete'.green);
+      return 0;
     });
 }
 

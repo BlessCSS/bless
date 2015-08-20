@@ -1,0 +1,9 @@
+instrumentation:
+  root: src
+  include-all-sources: true
+reporting:
+  reports:
+    - lcovonly
+    - html
+    - text
+  dir: ./.coverage

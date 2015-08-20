@@ -1,4 +1,3 @@
-/* eslint no-process-exit: 0 */
 import _ from 'lodash';
 import yargs from 'yargs';
 import common from './common-yargs';
@@ -48,17 +47,18 @@ function execute(options) {
     }
   };
 
-  countPath(srcPath, countOptions)
+  return countPath(srcPath, countOptions)
     .then(results => {
       console.log('');
       let formattedResults = format(results, srcPath);
       console.log(formattedResults);
 
       if (_.any(results, 'exceedsLimit')){
-        process.exit(1);
+        return 1;
       }
-    })
-    .catch(err => console.log(err.toString().red));
+
+      return 0;
+    });
 }
 
 function yargsSetup() {
