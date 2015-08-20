@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "babel-runtime": "^5.1.11",
+    "bluebird": "^2.9.34",
     "colors": "^1.0.3",
     "columnify": "^1.4.1",
     "css": "^2.2.0",
