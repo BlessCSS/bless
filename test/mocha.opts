@@ -1,2 +1,1 @@
---reporter spec
---ui exports
+--compilers js:babel/register
