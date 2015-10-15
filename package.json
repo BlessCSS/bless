@@ -4,6 +4,7 @@
   "url"             : "http://blesscss.com",
   "keywords"        : ["css", "parser", "bless", "less", "sass", "stylus"],
   "author"          : "Paul Young <paulyoungonline+bless@gmail.com>",
+  "repository"      : "BlessCSS/bless",
   "contributors"    : [],
   "version"         : "3.0.3",
   "bin"             : { "blessc": "./bin/blessc" },
