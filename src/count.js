@@ -17,6 +17,7 @@ function count(ast) {
     // Don't affect selector limit
     case 'comment':
     case 'charset':
+    case 'page':
     case 'font-face':
     case 'keyframes':
     case 'import':
