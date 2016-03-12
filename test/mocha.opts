@@ -1,2 +1,3 @@
 --reporter spec
 --ui exports
+--require babel-core/register

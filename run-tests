@@ -15,12 +15,12 @@ function myspawn(command) {
 }
 
 myspawn('npm run lint')
-  .then(() => myspawn('mocha --compilers js:babel/register'))
+  .then(() => myspawn('mocha --compilers js:babel-core/register'))
   .then(() => {
     console.log('Gathering Code Coverage...\n'.cyan);
     return exec('rm -rf ./.coverage');
   })
-  .then(() => myspawn('babel-node node_modules/.bin/isparta cover node_modules/.bin/_mocha -- --reporter dot'))
+  .then(() => myspawn('babel-node node_modules/babel-istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- --reporter dot'))
   .then(() => {
     if (isCI) {
       return exec(`cat ./.coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js`);
