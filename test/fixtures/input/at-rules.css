@@ -1,0 +1,97 @@
+@charset "UTF-8"; /* Test @charset, Test @charset as first line */
+
+/* Test @import */
+@import 'global.css';
+
+/* Test @namespace */
+@namespace url(http://www.w3.org/1999/xhtml); /* Namespace for XHTML */
+
+@namespace svg url(http://www.w3.org/2000/svg); /* Namespace for SVG embedded in XHTML */
+
+/* Test @media */
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .module {
+    width: 100%;
+  }
+}
+
+@media print {
+
+}
+
+/* Test @supports */
+@supports (display: flex) {
+  .module {
+    display: flex;
+  }
+}
+
+@supports (display: flex) and (-webkit-appearance: checkbox) {
+  .module {
+    display: flex;
+  }
+}
+
+/* Test @document */
+@document /* Rules for a specific page */
+  url(http://css-tricks.com/),
+  url-prefix(http://css-tricks.com/snippets/),
+  domain(css-tricks.com),
+  regexp("https:.*")  {
+  body {
+    font-family: Comic Sans;
+  }
+}
+
+/* Test @page */
+@page :first {
+  margin: 1in;
+}
+
+/* Test @font-face */
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('myfont.woff2') format('woff2'),
+        url('myfont.woff') format('woff');
+}
+
+/* Test @keyframes */
+@keyframes pulse {
+  0% {
+    background-color: #001f3f;
+  }
+
+  100% {
+    background-color: #ff4136;
+  }
+}
+
+/* Test @viewport */
+@viewport {
+  min-width: 640px;
+  max-width: 800px;
+}
+
+@viewport {
+  zoom: 0.75;
+  min-zoom: 0.5;
+  max-zoom: 0.9;
+}
+
+@viewport {
+  orientation: landscape;
+}
+
+/* Test @counter-style */
+@counter-style circled-alpha {
+  system: fixed;
+  symbols: Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ;
+  suffix: " ";
+}
+
+.items {
+   list-style: circled-alpha;
+}
