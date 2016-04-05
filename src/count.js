@@ -20,7 +20,11 @@ function count(ast) {
     case 'keyframes':
     case 'import':
     case 'supports':
+    case 'charset':
+    case 'namespace':
       return 0;
+    case 'page':
+      return 1;
     default:
       return countRules(ast.rules);
   }
