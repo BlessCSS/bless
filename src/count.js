@@ -22,8 +22,9 @@ function count(ast) {
     case 'supports':
     case 'charset':
     case 'namespace':
-    case 'page':
       return 0;
+    case 'page':
+      return 1;
     default:
       return countRules(ast.rules);
   }
