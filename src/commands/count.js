@@ -53,7 +53,7 @@ function execute(options) {
       let formattedResults = format(results, srcPath);
       console.log(formattedResults);
 
-      if (_.any(results, 'exceedsLimit')){
+      if (_.some(results, 'exceedsLimit')){
         return 1;
       }
 
