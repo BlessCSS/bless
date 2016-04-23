@@ -3,7 +3,7 @@ import yargs from 'yargs';
 import common from './common-yargs';
 import path from 'path';
 import { countPath } from '../count';
-import colors from 'colors';
+import chalk from 'chalk';
 import numberFormatter from 'format-number';
 import columnify from 'columnify';
 import { SELECTOR_LIMIT } from '../constants';
@@ -13,7 +13,7 @@ const formatNumber = numberFormatter();
 function format(results, srcPath) {
   let formattedData = results
     .map(x => {
-      let color = x.exceedsLimit ? colors.red : colors.green;
+      let color = x.exceedsLimit ? chalk.red : chalk.green;
       let relativeFilepath = path.relative(srcPath, x.filepath);
       let formattedNumber = formatNumber(x.selectorCount);
 
@@ -27,10 +27,10 @@ function format(results, srcPath) {
     columnSplitter: '    ',
     config: {
       filepath: {
-        headingTransform() { return 'File Path'.bold.underline; }
+        headingTransform() { return chalk.bold.underline('File Path'); }
       },
       selectorCount: {
-        headingTransform() { return `Selector Count (Limit: ${SELECTOR_LIMIT})`.bold.underline; }
+        headingTransform() { return chalk.bold.underline(`Selector Count (Limit: ${SELECTOR_LIMIT})`); }
       }
     }
   });
