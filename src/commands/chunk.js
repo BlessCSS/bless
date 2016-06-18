@@ -7,26 +7,27 @@ import fs from 'fs';
 import fsp from 'fs-promise';
 import { ensureDir, expand } from '../fs-utils';
 
-function executeChunk(input, outputDir, chunkOptions) {
+async function executeChunk(input, outputDir, chunkOptions) {
   let basename = path.basename(input, '.css');
 
-  return chunkFile(input, chunkOptions)
-    .then(({data, maps, totalSelectorCount}) => {
-      let chunkData = data.map((ast, index) => {
-        let outputFilename = path.join(outputDir, `${basename}.${index}.css`);
+  const {data, maps, totalSelectorCount} = await chunkFile(input, chunkOptions);
 
-        return fsp.writeFile(outputFilename, ast);
-      });
+  let chunkData = data.map((ast, index) => {
+    let outputFilename = path.join(outputDir, `${basename}.${index}.css`);
 
-      let sourcemaps = maps.map((sourcemap, index) => {
-        let outputFilename = path.join(outputDir, `${basename}.${index}.css.map`);
+    return fsp.writeFile(outputFilename, ast);
+  });
 
-        return fsp.writeFile(outputFilename, JSON.stringify(sourcemap));
-      });
+  let sourcemaps = maps.map((sourcemap, index) => {
+    let outputFilename = path.join(outputDir, `${basename}.${index}.css.map`);
 
-      return Promise.all([chunkData, sourcemaps])
-        .then(([chunks, __]) => chunks);
-    });
+    return fsp.writeFile(outputFilename, JSON.stringify(sourcemap));
+  });
+
+  const chunks = await Promise.all(chunkData);
+  await Promise.all(sourcemaps);
+
+  return chunks;
 }
 
 function execute(options) {
