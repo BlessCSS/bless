@@ -1,7 +1,7 @@
 #!/usr/bin/env babel-node
 /* eslint no-process-exit: 0 */
 
-import 'colors';
+import chalk from 'chalk';
 import { exec, spawn } from 'child-process-promise';
 
 const isCI = process.env.CONTINUOUS_INTEGRATION === 'true';
@@ -17,7 +17,7 @@ function myspawn(command) {
 myspawn('npm run lint')
   .then(() => myspawn('mocha --compilers js:babel-core/register'))
   .then(() => {
-    console.log('Gathering Code Coverage...\n'.cyan);
+    console.log(chalk.cyan('Gathering Code Coverage...\n'));
     return exec('rm -rf ./.coverage');
   })
   .then(() => myspawn('babel-node node_modules/babel-istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- --reporter dot'))
@@ -27,6 +27,10 @@ myspawn('npm run lint')
     }
   })
   .catch(err => {
-    console.log(err);
+    if (err.stack) {
+        console.error(err.stack);
+    } else {
+        console.error(err);
+    }
     process.exit(1);
   });

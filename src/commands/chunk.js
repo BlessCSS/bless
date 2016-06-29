@@ -1,4 +1,4 @@
-import 'colors';
+import chalk from 'chalk';
 import yargs from 'yargs';
 import common from './common-yargs';
 import { chunkFile } from '../index';
@@ -43,7 +43,7 @@ function execute(options) {
     .reduce((acc, x) => acc.concat([x]), [])
     .toPromise(Promise)
     .then(() => {
-      console.log('Complete'.green);
+      console.log(chalk.green('Complete'));
       return 0;
     });
 }

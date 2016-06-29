@@ -1,5 +1,5 @@
 /* eslint no-process-exit: 0 */
-import 'colors';
+import chalk from 'chalk';
 import yargs from 'yargs';
 import parseCliArgs from './parse-cli-args';
 
@@ -9,9 +9,9 @@ export default function cliExeute(argv) {
   try {
     command = parseCliArgs(argv);
   } catch(err) {
-    console.log(`Failed: ${err.toString()}`.red);
+    console.log(chalk.red(`Failed: ${err.toString()}`));
     if (err.stack) {
-      console.log(err.stack.red);
+      console.log(chalk.red(err.stack));
     }
     console.log('');
     yargs.showHelp();
