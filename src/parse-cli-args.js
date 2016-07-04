@@ -5,7 +5,10 @@ import commands from './commands';
 
 const help = {
   options: null,
-  execute: yargs.showHelp
+  execute() {
+    yargs.showHelp();
+    return Promise.resolve(1);
+  }
 };
 
 export default function parseCliArgs(argv) {
