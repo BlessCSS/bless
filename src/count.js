@@ -16,6 +16,8 @@ function count(ast) {
       return ast.selectors.length;
     // Don't affect selector limit
     case 'comment':
+    case 'charset':
+    case 'page':
     case 'font-face':
     case 'keyframes':
     case 'import':
